@@ -3944,3 +3944,376 @@ body.keyboard-nav .daily-option::before {
         font-size: 8px;
     }
 }
+
+/* ========================================
+   BINARY MUNCHERS - Arcade Style Game
+   ======================================== */
+
+#binary-munchers-screen {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 15px;
+}
+
+/* Header Stats */
+.bm-header {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 20px;
+    background: var(--color-surface);
+    border: 2px solid #00ff9d;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.bm-stat {
+    text-align: center;
+}
+
+.bm-stat .stat-label {
+    display: block;
+    font-size: 8px;
+    color: var(--color-text-secondary);
+    margin-bottom: 4px;
+}
+
+.bm-stat .stat-value {
+    font-size: 16px;
+    color: #00ff9d;
+}
+
+#bm-lives {
+    color: #ff4444;
+    letter-spacing: 2px;
+}
+
+/* Challenge Prompt */
+.bm-challenge {
+    text-align: center;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, rgba(0, 255, 157, 0.1) 0%, rgba(0, 212, 255, 0.1) 100%);
+    border: 2px solid #00ff9d;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.bm-challenge-label {
+    font-size: 10px;
+    color: var(--color-text-secondary);
+    margin-right: 10px;
+}
+
+.bm-challenge-text {
+    font-size: 14px;
+    color: #00ff9d;
+    text-shadow: 0 0 10px rgba(0, 255, 157, 0.5);
+}
+
+/* Game Container */
+.bm-game-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    min-height: 300px;
+}
+
+/* Game Grid */
+.bm-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 4px;
+    background: #0a0a1a;
+    border: 3px solid #00ff9d;
+    border-radius: 8px;
+    padding: 8px;
+    width: 100%;
+    max-width: 560px;
+    aspect-ratio: 7/5;
+}
+
+.bm-cell {
+    background: var(--color-surface);
+    border: 1px solid #333366;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: var(--color-text-primary);
+    cursor: default;
+    transition: all 0.15s;
+    position: relative;
+    overflow: hidden;
+}
+
+.bm-cell.correct {
+    border-color: #00ff9d;
+    box-shadow: 0 0 8px rgba(0, 255, 157, 0.3);
+}
+
+.bm-cell.wrong {
+    color: var(--color-text-secondary);
+}
+
+.bm-cell.munched {
+    background: rgba(0, 255, 157, 0.2);
+    border-color: #00ff9d;
+}
+
+.bm-cell.munched::after {
+    content: '✓';
+    position: absolute;
+    font-size: 16px;
+    color: #00ff9d;
+}
+
+.bm-cell.binary {
+    font-family: monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+}
+
+/* Player Sprite */
+.bm-player {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    transition: all 0.1s ease-out;
+    z-index: 10;
+}
+
+.bm-player-sprite {
+    font-size: 28px;
+    filter: drop-shadow(0 0 8px rgba(0, 255, 157, 0.8));
+    animation: playerPulse 1s infinite;
+}
+
+@keyframes playerPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.bm-player.boosting .bm-player-sprite {
+    animation: playerBoost 0.2s infinite;
+    filter: drop-shadow(0 0 15px rgba(255, 212, 0, 0.9));
+}
+
+@keyframes playerBoost {
+    0%, 100% { transform: scale(1.1); }
+    50% { transform: scale(1.2); }
+}
+
+/* Enemy Sprites */
+.bm-enemies {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+}
+
+.bm-enemy {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease-out;
+    z-index: 5;
+}
+
+.bm-enemy-sprite {
+    font-size: 24px;
+    animation: enemyFloat 2s infinite;
+}
+
+@keyframes enemyFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+}
+
+.bm-enemy.hunting .bm-enemy-sprite {
+    animation: enemyHunt 0.5s infinite;
+    filter: drop-shadow(0 0 10px rgba(255, 68, 68, 0.8));
+}
+
+@keyframes enemyHunt {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+
+/* Status Bar */
+.bm-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background: var(--color-surface);
+    border-radius: 6px;
+    margin-top: 15px;
+}
+
+.bm-munched {
+    font-size: 10px;
+    color: var(--color-text-secondary);
+}
+
+.bm-munched span:last-child {
+    color: #00ff9d;
+}
+
+.bm-powerup {
+    font-size: 10px;
+    color: var(--color-warning);
+}
+
+/* Footer */
+.bm-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.bm-controls {
+    font-size: 8px;
+    color: var(--color-text-secondary);
+    display: flex;
+    gap: 15px;
+}
+
+/* Level Complete Overlay */
+.bm-level-complete {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(10, 10, 26, 0.95);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.bm-level-title {
+    font-size: 24px;
+    color: #00ff9d;
+    margin-bottom: 20px;
+    text-shadow: 0 0 20px rgba(0, 255, 157, 0.8);
+}
+
+.bm-level-stats {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.bm-level-stats div {
+    font-size: 10px;
+    color: var(--color-text-secondary);
+    margin: 8px 0;
+}
+
+.bm-level-stats span {
+    color: var(--color-primary);
+}
+
+/* Game Over */
+.bm-game-over {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(10, 10, 26, 0.95);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.bm-game-over-title {
+    font-size: 28px;
+    color: #ff4444;
+    margin-bottom: 20px;
+    text-shadow: 0 0 20px rgba(255, 68, 68, 0.8);
+}
+
+/* Binary Card Icon */
+.binary-card { --card-accent: #00ff9d; }
+
+.icon-binary {
+    display: flex;
+    gap: 2px;
+}
+
+.binary-bit {
+    font-size: 14px;
+    font-family: monospace;
+    color: #00ff9d;
+    animation: bitFlicker 2s infinite;
+}
+
+.binary-bit:nth-child(2) { animation-delay: 0.5s; }
+.binary-bit:nth-child(3) { animation-delay: 1s; }
+.binary-bit:nth-child(4) { animation-delay: 1.5s; }
+
+@keyframes bitFlicker {
+    0%, 45%, 55%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+/* Responsive Binary Munchers */
+@media (max-width: 600px) {
+    .bm-grid {
+        gap: 2px;
+        padding: 4px;
+    }
+
+    .bm-cell {
+        font-size: 8px;
+    }
+
+    .bm-cell.binary {
+        font-size: 7px;
+    }
+
+    .bm-player-sprite {
+        font-size: 22px;
+    }
+
+    .bm-enemy-sprite {
+        font-size: 18px;
+    }
+
+    .bm-challenge-text {
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 400px) {
+    .bm-header {
+        padding: 8px 10px;
+    }
+
+    .bm-stat .stat-value {
+        font-size: 12px;
+    }
+
+    .bm-controls {
+        flex-direction: column;
+        gap: 4px;
+    }
+}

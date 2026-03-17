@@ -152,6 +152,7 @@ const Game = {
         this.addClickListener('btn-launch-subnet', () => this.showSubnetHub());
         this.addClickListener('btn-launch-packet', () => this.showPacketJourneySelect());
         this.addClickListener('btn-launch-osi', () => this.startOSITrainer());
+        this.addClickListener('btn-launch-binary', () => this.startBinaryMunchers());
         this.addClickListener('btn-lp-settings', () => this.showSettingsFromLaunch());
         this.addClickListener('btn-lp-stats', () => this.showStatisticsFromLaunch());
         this.addClickListener('btn-lp-achievements', () => this.showAchievementsFromLaunch());
@@ -161,6 +162,7 @@ const Game = {
         this.addClickListener('card-subnet', () => this.showSubnetHub());
         this.addClickListener('card-packet', () => this.showPacketJourneySelect());
         this.addClickListener('card-osi', () => this.startOSITrainer());
+        this.addClickListener('card-binary', () => this.startBinaryMunchers());
 
         // ========================================
         // SUBNET HUB BUTTONS (formerly main-menu)
@@ -219,6 +221,9 @@ const Game = {
         // OSI Trainer
         this.addClickListener('btn-osi-trainer', () => this.startOSITrainer());
         this.addClickListener('btn-osi-quit', () => this.quitOSITrainer());
+
+        // Binary Munchers
+        this.addClickListener('btn-bm-quit', () => this.quitBinaryMunchers());
 
         // Leaderboard
         this.addClickListener('btn-leaderboard', () => this.showLeaderboard());
@@ -2040,6 +2045,81 @@ const Game = {
         if (finalScore) finalScore.textContent = results.score;
         if (finalAccuracy) finalAccuracy.textContent = `Accuracy: ${results.accuracy}%`;
         if (gameOverTitle) gameOverTitle.textContent = 'OSI TRAINING COMPLETE';
+
+        UI.showOverlay('gameOver');
+    },
+
+    // ========================================
+    // BINARY MUNCHERS
+    // ========================================
+
+    /**
+     * Start Binary Munchers game
+     */
+    startBinaryMunchers() {
+        if (typeof Sounds !== 'undefined') {
+            Sounds.play('click');
+        }
+
+        if (typeof BinaryMunchers !== 'undefined') {
+            BinaryMunchers.init();
+            BinaryMunchers.onGameOver = (results) => this.handleBinaryMunchersComplete(results);
+            UI.showScreen('binaryMunchersScreen');
+            // Small delay to ensure screen is rendered before starting
+            setTimeout(() => {
+                BinaryMunchers.start();
+            }, 100);
+        } else {
+            console.error('BinaryMunchers module not loaded');
+        }
+    },
+
+    /**
+     * Quit Binary Munchers
+     */
+    quitBinaryMunchers() {
+        if (typeof Sounds !== 'undefined') {
+            Sounds.play('click');
+        }
+
+        if (typeof BinaryMunchers !== 'undefined') {
+            BinaryMunchers.stop();
+        }
+
+        UI.showScreen('launchPanel');
+    },
+
+    /**
+     * Handle Binary Munchers game over
+     */
+    handleBinaryMunchersComplete(results) {
+        // Update stats if available
+        if (typeof Stats !== 'undefined') {
+            Stats.trackBinaryMunchers(results);
+        }
+
+        // Record to leaderboard
+        if (typeof Leaderboard !== 'undefined') {
+            Leaderboard.addBinaryMunchersScore(results.score, results.level);
+        }
+
+        // Show game over overlay
+        const finalScore = document.getElementById('final-score');
+        const finalAccuracy = document.getElementById('final-accuracy');
+        const finalEfficiency = document.getElementById('final-efficiency');
+        const gameOverTitle = document.getElementById('game-over-title');
+        const starsDisplay = document.getElementById('stars-display');
+        const nextLevelBtn = document.getElementById('btn-next-level');
+
+        if (finalScore) finalScore.textContent = results.score;
+        if (finalAccuracy) {
+            finalAccuracy.textContent = `Level Reached: ${results.level}`;
+            finalAccuracy.style.display = 'block';
+        }
+        if (finalEfficiency) finalEfficiency.style.display = 'none';
+        if (gameOverTitle) gameOverTitle.textContent = 'GAME OVER';
+        if (starsDisplay) starsDisplay.style.display = 'none';
+        if (nextLevelBtn) nextLevelBtn.classList.add('hidden');
 
         UI.showOverlay('gameOver');
     }
