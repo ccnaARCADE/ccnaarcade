@@ -94,10 +94,13 @@ body {
    LAUNCH PANEL - Main Entry Point
    ======================================== */
 #launch-panel {
-    display: flex;
     flex-direction: column;
     min-height: 100%;
     padding: 20px;
+}
+
+#launch-panel.active {
+    display: flex;
 }
 
 /* Launch Header */
@@ -3954,10 +3957,13 @@ body.keyboard-nav .daily-option::before {
    ======================================== */
 
 #binary-munchers-screen {
-    display: flex;
     flex-direction: column;
     height: 100%;
     padding: 15px;
+}
+
+#binary-munchers-screen.active {
+    display: flex;
 }
 
 /* Header Stats */

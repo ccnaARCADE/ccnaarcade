@@ -527,10 +527,19 @@ const OSITrainer = {
             });
         }
 
-        // Highlight relevant layer in diagram if question involves a specific layer
-        this.highlightLayer(q);
+        // Clear any previous highlights (don't highlight answer yet - that would give it away!)
+        this.clearLayerHighlights();
 
         this.updateUI();
+    },
+
+    /**
+     * Clear all layer highlights
+     */
+    clearLayerHighlights() {
+        if (!this.elements.layerDiagram) return;
+        const layers = this.elements.layerDiagram.querySelectorAll('.osi-layer');
+        layers.forEach(l => l.classList.remove('highlight'));
     },
 
     /**
@@ -595,11 +604,14 @@ const OSITrainer = {
             this.handleWrong();
         }
 
-        // Show feedback
+        // Show feedback and highlight the correct layer
         if (this.elements.feedback) {
             this.elements.feedback.textContent = q.explanation;
             this.elements.feedback.className = 'osi-feedback ' + (isCorrect ? 'correct' : 'wrong');
         }
+
+        // Now highlight the relevant layer to help learning
+        this.highlightLayer(q);
 
         setTimeout(() => {
             this.nextQuestion();

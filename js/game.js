@@ -502,7 +502,11 @@ const Game = {
      * Show the Subnet Mastery hub (formerly main menu)
      */
     showSubnetHub() {
-        this.updateLaunchPanelStats();
+        try {
+            this.updateLaunchPanelStats();
+        } catch (e) {
+            // Silently handle stats errors - shouldn't block navigation
+        }
         UI.showScreen('mainMenu');
     },
 

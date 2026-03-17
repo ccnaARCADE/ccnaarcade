@@ -3,7 +3,7 @@
  * Enables offline play via caching
  */
 
-const CACHE_NAME = 'ccna-arcade-v4.0';
+const CACHE_NAME = 'ccna-arcade-v7.0';
 const ASSETS_TO_CACHE = [
     '/',
     '/index.html',
