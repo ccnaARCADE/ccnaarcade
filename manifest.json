@@ -1,0 +1,64 @@
+{
+    "name": "CCNA Arcade - Network Training Game",
+    "short_name": "CCNA Arcade",
+    "description": "Master CCNA concepts with this retro arcade-style training game - subnetting, packet flow, protocols and more",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#0a0a1a",
+    "theme_color": "#00d4ff",
+    "orientation": "portrait-primary",
+    "categories": ["education", "games"],
+    "icons": [
+        {
+            "src": "icons/icon.svg",
+            "sizes": "any",
+            "type": "image/svg+xml",
+            "purpose": "any"
+        },
+        {
+            "src": "icons/icon.svg",
+            "sizes": "512x512",
+            "type": "image/svg+xml",
+            "purpose": "maskable"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "screenshots/speed-subnet.png",
+            "sizes": "1280x720",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "Speed Subnet Mode"
+        },
+        {
+            "src": "screenshots/scenario.png",
+            "sizes": "1280x720",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "Client Scenario Mode"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Speed Subnet",
+            "short_name": "Arcade",
+            "description": "Quick-fire CIDR questions",
+            "url": "/?mode=speed",
+            "icons": [{ "src": "icons/icon-96.png", "sizes": "96x96" }]
+        },
+        {
+            "name": "Daily Challenge",
+            "short_name": "Daily",
+            "description": "Today's challenge",
+            "url": "/?mode=daily",
+            "icons": [{ "src": "icons/icon-96.png", "sizes": "96x96" }]
+        },
+        {
+            "name": "Packet Journey",
+            "short_name": "Packets",
+            "description": "Learn packet flow",
+            "url": "/?mode=packet",
+            "icons": [{ "src": "icons/icon-96.png", "sizes": "96x96" }]
+        }
+    ]
+}

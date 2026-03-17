@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Master CCNA concepts with this retro arcade-style training game - subnetting, packet flow, protocols and more">
+    <meta name="theme-color" content="#00d4ff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="CCNA Arcade">
+    <title>CCNA Arcade - Network Training Game</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon.svg">
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <a href="#main-menu" class="skip-link">Skip to main content</a>
+    <div id="game-container" role="main">
+        <!-- Main Menu -->
+        <div id="main-menu" class="screen active">
+            <h1 class="title">CCNA<br>ARCADE</h1>
+            <p class="subtitle">Network Training Game</p>
+
+            <!-- Topic Areas -->
+            <div class="topic-areas">
+                <div class="topic-section">
+                    <div class="topic-header">IP & SUBNETTING</div>
+                    <div class="topic-buttons">
+                        <button id="btn-arcade" class="menu-btn">SPEED SUBNET</button>
+                        <button id="btn-daily" class="menu-btn daily">DAILY CHALLENGE</button>
+                        <button id="btn-puzzle" class="menu-btn">CLIENT SCENARIOS</button>
+                        <button id="btn-practice" class="menu-btn">PRACTICE MODE</button>
+                    </div>
+                </div>
+
+                <div class="topic-section">
+                    <div class="topic-header">PACKET JOURNEY</div>
+                    <div class="topic-buttons">
+                        <button id="btn-packet-journey" class="menu-btn packet">PACKET JOURNEY</button>
+                    </div>
+                </div>
+
+                <div class="topic-section">
+                    <div class="topic-header">OSI & PROTOCOLS</div>
+                    <div class="topic-buttons">
+                        <button id="btn-osi-trainer" class="menu-btn osi">OSI MODEL QUIZ</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-buttons secondary-menu">
+                <button id="btn-help" class="menu-btn">HOW TO PLAY</button>
+                <button id="btn-settings" class="menu-btn secondary">SETTINGS</button>
+                <button id="btn-leaderboard" class="menu-btn secondary">LEADERBOARD</button>
+                <button id="btn-achievements" class="menu-btn secondary">ACHIEVEMENTS</button>
+                <button id="btn-stats" class="menu-btn secondary">STATISTICS</button>
+            </div>
+            <div class="high-score">
+                HIGH SCORE: <span id="high-score-display">0</span>
+            </div>
+            <div class="difficulty-badge">
+                DIFFICULTY: <span id="difficulty-display">BEGINNER</span>
+            </div>
+        </div>
+
+        <!-- Speed Subnet (Arcade Mode) -->
+        <div id="speed-subnet-screen" class="screen">
+            <div class="speed-header">
+                <div class="stat">
+                    <span class="stat-label">SCORE</span>
+                    <span id="speed-score" class="stat-value">0</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">STREAK</span>
+                    <span id="speed-streak" class="stat-value">0x</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">PROGRESS</span>
+                    <span id="speed-progress" class="stat-value">0/20</span>
+                </div>
+            </div>
+
+            <div id="speed-subnet-container" class="speed-game">
+                <!-- Mascot Canvas - Bit rides the network cables -->
+                <div id="mascot-area">
+                    <canvas id="mascot-canvas" width="400" height="80"></canvas>
+                </div>
+
+                <div class="speed-question">
+                    <div class="speed-prompt">How many hosts?</div>
+                    <div id="speed-host-count" class="speed-hosts">0</div>
+                    <div class="speed-subtext">Select the minimum CIDR</div>
+                </div>
+
+                <div id="speed-cidr-options" class="speed-options">
+                    <!-- Options generated dynamically -->
+                </div>
+
+                <div id="speed-feedback" class="speed-feedback"></div>
+            </div>
+
+            <div class="speed-footer">
+                <button id="btn-speed-quit" class="game-btn">QUIT</button>
+                <div class="speed-hint">Keys 1-4 to answer</div>
+            </div>
+        </div>
+
+        <!-- Scenario Select (Puzzle Mode) -->
+        <div id="scenario-select" class="screen">
+            <h2>CLIENT SCENARIOS</h2>
+            <p class="scenario-subtitle">Select a client to configure their network</p>
+            <div id="scenario-grid" class="scenario-grid"></div>
+            <button id="btn-back-scenarios" class="menu-btn small">BACK</button>
+        </div>
+
+        <!-- Puzzle Game Screen -->
+        <div id="game-screen" class="screen">
+            <!-- Scenario Info Header -->
+            <div id="scenario-header" class="scenario-info">
+                <div class="client-info">
+                    <span id="client-icon" class="client-icon">🏢</span>
+                    <div>
+                        <div id="client-name" class="client-name">Client Name</div>
+                        <div id="client-location" class="client-location">Location</div>
+                    </div>
+                </div>
+                <div class="network-info">
+                    <div class="network-class" id="network-class-badge">CLASS C</div>
+                    <div id="network-display" class="network-cidr">192.168.1.0/24</div>
+                </div>
+            </div>
+
+            <div class="game-header">
+                <div class="stat">
+                    <span class="stat-label">SCORE</span>
+                    <span id="score-display" class="stat-value">0</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">EFFICIENCY</span>
+                    <span id="efficiency-display" class="stat-value">0%</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">SUBNETS</span>
+                    <span id="subnets-display" class="stat-value">0/0</span>
+                </div>
+            </div>
+
+            <div class="game-area">
+                <!-- Left Panel: Building Visualization -->
+                <div id="building-panel">
+                    <div class="panel-label">CLIENT BUILDING</div>
+                    <canvas id="building-canvas" width="200" height="300"></canvas>
+                    <div id="building-status">
+                        <div class="floor-legend" id="floor-legend"></div>
+                    </div>
+                </div>
+
+                <!-- Center: Main Grid Canvas -->
+                <div id="grid-wrapper">
+                    <canvas id="grid-canvas" width="400" height="400"></canvas>
+                </div>
+
+                <!-- Right Panel: Requirements + CIDR -->
+                <div id="right-panel">
+                    <div id="requirements-area">
+                        <div class="requirements-label">SUBNET REQUIREMENTS</div>
+                        <div id="requirements-list"></div>
+                    </div>
+
+                    <div id="cidr-panel">
+                        <div class="panel-label">SELECT CIDR</div>
+                        <div id="cidr-buttons"></div>
+                        <div id="cidr-info">
+                            <div>Selected: <span id="selected-cidr">/24</span></div>
+                            <div>Hosts: <span id="selected-hosts">254</span></div>
+                        </div>
+                    </div>
+
+                    <div id="feedback-panel" class="feedback-panel hidden">
+                        <div id="feedback-content"></div>
+                    </div>
+
+                    <div id="network-class-info">
+                        <div class="class-title">Network Info</div>
+                        <div id="class-details"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-footer">
+                <button id="btn-pause" class="game-btn">MENU</button>
+                <button id="btn-undo" class="game-btn">UNDO</button>
+                <div id="message-display"></div>
+                <div id="instructions-hint" class="instructions-hint">
+                    Click a requirement to select it, then click the grid to place
+                </div>
+            </div>
+        </div>
+
+        <!-- Pause Menu -->
+        <div id="pause-menu" class="screen overlay">
+            <h2>PAUSED</h2>
+            <button id="btn-resume" class="menu-btn">RESUME</button>
+            <button id="btn-restart" class="menu-btn">RESTART</button>
+            <button id="btn-pause-settings" class="menu-btn secondary">SETTINGS</button>
+            <button id="btn-quit" class="menu-btn">QUIT</button>
+        </div>
+
+        <!-- Game Over / Level Complete -->
+        <div id="game-over" class="screen overlay">
+            <h2 id="game-over-title">LEVEL COMPLETE</h2>
+            <div class="final-score">
+                <div>SCORE: <span id="final-score">0</span></div>
+                <div id="final-accuracy" class="final-stat"></div>
+                <div id="final-efficiency" class="final-stat"></div>
+                <div id="new-high-score" class="hidden">NEW HIGH SCORE!</div>
+            </div>
+            <div class="stars-display" id="stars-display"></div>
+            <button id="btn-play-again" class="menu-btn">PLAY AGAIN</button>
+            <button id="btn-next-level" class="menu-btn hidden">NEXT CLIENT</button>
+            <button id="btn-menu" class="menu-btn">MAIN MENU</button>
+        </div>
+
+        <!-- Settings Screen -->
+        <div id="settings-screen" class="screen">
+            <h2>SETTINGS</h2>
+            <div class="settings-content">
+                <div class="setting-group">
+                    <h3>DIFFICULTY</h3>
+                    <div class="difficulty-options">
+                        <button class="difficulty-btn" data-difficulty="beginner">
+                            <span class="diff-name">BEGINNER</span>
+                            <span class="diff-desc">Hints shown, minimum CIDR displayed</span>
+                        </button>
+                        <button class="difficulty-btn locked" data-difficulty="intermediate">
+                            <span class="diff-name">INTERMEDIATE</span>
+                            <span class="diff-desc">No CIDR hints on buttons</span>
+                            <span class="lock-msg">Complete 3 scenarios to unlock</span>
+                        </button>
+                        <button class="difficulty-btn locked" data-difficulty="expert">
+                            <span class="diff-name">EXPERT</span>
+                            <span class="diff-desc">No hints, no minimum CIDR shown</span>
+                            <span class="lock-msg">Complete all scenarios to unlock</span>
+                        </button>
+                        <button class="difficulty-btn locked" data-difficulty="master">
+                            <span class="diff-name">MASTER</span>
+                            <span class="diff-desc">All question types, tight time limits</span>
+                            <span class="lock-msg">Score 15,000+ in Speed Subnet</span>
+                        </button>
+                        <button class="difficulty-btn locked" data-difficulty="nightmare">
+                            <span class="diff-name">NIGHTMARE</span>
+                            <span class="diff-desc">Maximum challenge, no mercy</span>
+                            <span class="lock-msg">Complete 10 daily challenges</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <h3>HINTS</h3>
+                    <label class="toggle-setting">
+                        <input type="checkbox" id="toggle-hints" checked>
+                        <span>Show host counts on CIDR buttons</span>
+                    </label>
+                </div>
+                <div class="setting-group">
+                    <h3>SOUND</h3>
+                    <label class="toggle-setting">
+                        <input type="checkbox" id="toggle-sound" checked>
+                        <span>Enable sound effects</span>
+                    </label>
+                    <div class="volume-control">
+                        <label for="volume-slider">Volume</label>
+                        <input type="range" id="volume-slider" min="0" max="100" value="50" class="volume-slider">
+                        <span id="volume-display">50%</span>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <h3>THEME</h3>
+                    <div id="theme-selector" class="theme-selector">
+                        <!-- Generated dynamically -->
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <h3>CUSTOM SCENARIOS</h3>
+                    <p class="setting-desc">Import client scenarios from JSON</p>
+                    <button id="btn-import-scenarios" class="menu-btn small">IMPORT</button>
+                    <button id="btn-export-scenarios" class="menu-btn small">EXPORT</button>
+                    <input type="file" id="scenario-file-input" accept=".json" style="display:none">
+                </div>
+                <div class="setting-group">
+                    <h3>TUTORIALS</h3>
+                    <p class="setting-desc">Replay the in-game tutorials</p>
+                    <button id="btn-replay-tutorials" class="menu-btn small">REPLAY TUTORIALS</button>
+                </div>
+                <div class="setting-group">
+                    <h3>SAVE DATA</h3>
+                    <p class="setting-desc">Backup or restore all your progress</p>
+                    <div id="save-summary" class="save-summary"></div>
+                    <button id="btn-export-save" class="menu-btn small">EXPORT SAVE</button>
+                    <button id="btn-import-save" class="menu-btn small">IMPORT SAVE</button>
+                    <input type="file" id="save-file-input" accept=".json" style="display:none">
+                </div>
+                <div class="setting-group">
+                    <h3>RESET PROGRESS</h3>
+                    <p class="setting-desc">Clear all scenario progress and achievements</p>
+                    <button id="btn-reset-scenarios" class="menu-btn small danger">RESET SCENARIOS</button>
+                    <button id="btn-reset-all" class="menu-btn small danger">RESET EVERYTHING</button>
+                </div>
+            </div>
+            <button id="btn-back-settings" class="menu-btn">BACK</button>
+        </div>
+
+        <!-- Achievements Screen -->
+        <div id="achievements-screen" class="screen">
+            <h2>ACHIEVEMENTS</h2>
+            <div class="achievements-header">
+                <span id="achievements-count">0/10</span> UNLOCKED
+            </div>
+            <div id="achievements-grid" class="achievements-grid"></div>
+            <button id="btn-back-achievements" class="menu-btn">BACK</button>
+        </div>
+
+        <!-- Achievement Popup -->
+        <div id="achievement-popup" class="achievement-popup hidden">
+            <div class="achievement-icon" id="popup-icon"></div>
+            <div class="achievement-info">
+                <div class="achievement-title">ACHIEVEMENT UNLOCKED!</div>
+                <div class="achievement-name" id="popup-name"></div>
+            </div>
+        </div>
+
+        <!-- Daily Challenge Screen -->
+        <div id="daily-challenge-screen" class="screen">
+            <div class="daily-header">
+                <h2>DAILY CHALLENGE</h2>
+                <div id="daily-date" class="daily-date"></div>
+                <div id="daily-theme" class="daily-theme"></div>
+            </div>
+
+            <div id="daily-info" class="daily-info">
+                <div class="daily-streak">
+                    <span class="streak-label">STREAK</span>
+                    <span id="daily-streak-count" class="streak-value">0</span>
+                </div>
+                <div class="daily-timer">
+                    <span class="timer-label">TIME LEFT</span>
+                    <span id="daily-timer-display" class="timer-value">2:00</span>
+                </div>
+            </div>
+
+            <div id="daily-game-area" class="daily-game hidden">
+                <div class="daily-progress">
+                    <span id="daily-progress-text">Question 1/15</span>
+                    <div class="daily-progress-bar">
+                        <div id="daily-progress-fill" class="progress-fill"></div>
+                    </div>
+                </div>
+
+                <div id="daily-question" class="daily-question">
+                    <div id="daily-prompt" class="daily-prompt">Question here</div>
+                    <div id="daily-value" class="daily-value">Value</div>
+                </div>
+
+                <div id="daily-options" class="daily-options">
+                    <!-- Options generated dynamically -->
+                </div>
+
+                <div id="daily-score-display" class="daily-score">
+                    SCORE: <span id="daily-score">0</span>
+                </div>
+            </div>
+
+            <div id="daily-start-area" class="daily-start">
+                <div id="daily-status" class="daily-status"></div>
+                <button id="btn-start-daily" class="menu-btn">START CHALLENGE</button>
+            </div>
+
+            <div id="daily-results" class="daily-results hidden">
+                <div class="results-title">CHALLENGE COMPLETE!</div>
+                <div id="daily-final-score" class="results-score">0</div>
+                <div id="daily-results-stats" class="results-stats"></div>
+            </div>
+
+            <button id="btn-back-daily" class="menu-btn small">BACK</button>
+        </div>
+
+        <!-- Leaderboard Screen -->
+        <div id="leaderboard-screen" class="screen">
+            <h2>LEADERBOARD</h2>
+
+            <div class="leaderboard-tabs">
+                <button class="leaderboard-tab active" data-tab="speed">SPEED SUBNET</button>
+                <button class="leaderboard-tab" data-tab="daily">DAILY</button>
+            </div>
+
+            <div id="leaderboard-content" class="leaderboard-content">
+                <div id="leaderboard-speed" class="leaderboard-table active">
+                    <div class="leaderboard-header">
+                        <span class="lb-rank">#</span>
+                        <span class="lb-score">SCORE</span>
+                        <span class="lb-acc">ACC</span>
+                        <span class="lb-streak">STREAK</span>
+                        <span class="lb-date">DATE</span>
+                    </div>
+                    <div id="leaderboard-speed-entries" class="leaderboard-entries">
+                        <!-- Generated dynamically -->
+                    </div>
+                </div>
+
+                <div id="leaderboard-daily" class="leaderboard-table">
+                    <div class="leaderboard-header">
+                        <span class="lb-rank">#</span>
+                        <span class="lb-score">SCORE</span>
+                        <span class="lb-acc">ACC</span>
+                        <span class="lb-date">DATE</span>
+                    </div>
+                    <div id="leaderboard-daily-entries" class="leaderboard-entries">
+                        <!-- Generated dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <div id="leaderboard-empty" class="leaderboard-empty hidden">
+                No scores yet! Play some games to see your rankings.
+            </div>
+
+            <button id="btn-back-leaderboard" class="menu-btn small">BACK</button>
+        </div>
+
+        <!-- Statistics Screen -->
+        <div id="stats-screen" class="screen">
+            <h2>STATISTICS</h2>
+            <div class="stats-content">
+                <div class="stats-overview">
+                    <div class="stat-card">
+                        <span class="stat-title">TOTAL GAMES</span>
+                        <span id="stat-total-games" class="stat-number">0</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-title">PLAY TIME</span>
+                        <span id="stat-play-time" class="stat-number">0m</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-title">ACCURACY</span>
+                        <span id="stat-accuracy" class="stat-number">0%</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-title">BEST STREAK</span>
+                        <span id="stat-best-streak" class="stat-number">0</span>
+                    </div>
+                </div>
+
+                <div class="stats-section">
+                    <h3>SPEED SUBNET</h3>
+                    <div class="stats-grid">
+                        <div class="mini-stat">
+                            <span>Best Score:</span>
+                            <span id="stat-speed-best">0</span>
+                        </div>
+                        <div class="mini-stat">
+                            <span>Games Played:</span>
+                            <span id="stat-speed-games">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-section">
+                    <h3>CLIENT SCENARIOS</h3>
+                    <div class="stats-grid">
+                        <div class="mini-stat">
+                            <span>Scenarios Completed:</span>
+                            <span id="stat-scenarios-completed">0</span>
+                        </div>
+                        <div class="mini-stat">
+                            <span>3-Star Count:</span>
+                            <span id="stat-three-stars">0</span>
+                        </div>
+                        <div class="mini-stat">
+                            <span>Avg Efficiency:</span>
+                            <span id="stat-avg-efficiency">0%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-section">
+                    <h3>DAILY CHALLENGE</h3>
+                    <div class="stats-grid">
+                        <div class="mini-stat">
+                            <span>Challenges Completed:</span>
+                            <span id="stat-daily-completed">0</span>
+                        </div>
+                        <div class="mini-stat">
+                            <span>Current Streak:</span>
+                            <span id="stat-daily-streak">0</span>
+                        </div>
+                        <div class="mini-stat">
+                            <span>Best Streak:</span>
+                            <span id="stat-daily-best-streak">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-section">
+                    <h3>CATEGORY ACCURACY</h3>
+                    <div id="category-breakdown" class="category-breakdown">
+                        <!-- Generated dynamically -->
+                    </div>
+                </div>
+            </div>
+            <button id="btn-back-stats" class="menu-btn">BACK</button>
+        </div>
+
+        <!-- Practice Mode Screen -->
+        <div id="practice-screen" class="screen">
+            <h2>PRACTICE MODE</h2>
+            <p class="practice-subtitle">Focus on your weak areas</p>
+
+            <div id="practice-categories" class="practice-categories">
+                <!-- Generated dynamically -->
+            </div>
+
+            <div class="practice-actions">
+                <button id="btn-start-practice" class="menu-btn" disabled>START PRACTICE</button>
+                <p class="practice-hint">Select categories to practice</p>
+            </div>
+
+            <button id="btn-back-practice" class="menu-btn small">BACK</button>
+        </div>
+
+        <!-- Packet Journey Screen -->
+        <div id="packet-journey-screen" class="screen">
+            <div class="pj-header">
+                <h2>PACKET JOURNEY</h2>
+                <div class="pj-scenario-title" id="pj-scenario-title">Local Web Request</div>
+            </div>
+
+            <div class="pj-game-area">
+                <!-- Network Canvas - Top-down view -->
+                <div class="pj-canvas-container">
+                    <canvas id="pj-network-canvas" width="600" height="400"></canvas>
+                    <!-- Mascot overlay -->
+                    <div id="pj-mascot" class="pj-mascot">
+                        <div class="pj-mascot-body">📦</div>
+                        <div class="pj-mascot-name">Packie</div>
+                    </div>
+                </div>
+
+                <!-- Info Panel -->
+                <div class="pj-info-panel">
+                    <div class="pj-current-layer">
+                        <span class="pj-layer-label">CURRENT LAYER</span>
+                        <span id="pj-layer-display" class="pj-layer-value">Application</span>
+                    </div>
+                    <div class="pj-encapsulation">
+                        <span class="pj-enc-label">ENCAPSULATION</span>
+                        <div id="pj-enc-stack" class="pj-enc-stack">
+                            <!-- Filled dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question Area -->
+            <div id="pj-question-area" class="pj-question-area hidden">
+                <div id="pj-question-text" class="pj-question-text">
+                    What happens when you type a URL in your browser?
+                </div>
+                <div id="pj-options" class="pj-options">
+                    <!-- Options generated dynamically -->
+                </div>
+            </div>
+
+            <!-- Explanation Area -->
+            <div id="pj-explanation-area" class="pj-explanation-area hidden">
+                <div class="pj-explanation-icon">💡</div>
+                <div id="pj-explanation-text" class="pj-explanation-text">
+                    Explanation appears here...
+                </div>
+                <button id="pj-continue-btn" class="menu-btn small">CONTINUE</button>
+            </div>
+
+            <!-- Progress -->
+            <div class="pj-progress">
+                <div class="pj-progress-bar">
+                    <div id="pj-progress-fill" class="pj-progress-fill" style="width: 0%"></div>
+                </div>
+                <span id="pj-progress-text" class="pj-progress-text">Step 1 of 8</span>
+            </div>
+
+            <div class="pj-footer">
+                <button id="btn-pj-quit" class="game-btn">QUIT</button>
+                <div class="pj-score">SCORE: <span id="pj-score">0</span></div>
+            </div>
+        </div>
+
+        <!-- Packet Journey Scenario Select -->
+        <div id="packet-journey-select" class="screen">
+            <h2>PACKET JOURNEY</h2>
+            <p class="pj-subtitle">Follow a packet through the network</p>
+
+            <div class="pj-scenario-grid">
+                <button class="pj-scenario-card" data-scenario="local_web">
+                    <div class="pj-scenario-icon">🏠</div>
+                    <div class="pj-scenario-name">Local Web Request</div>
+                    <div class="pj-scenario-desc">HTTP request on LAN</div>
+                    <div class="pj-difficulty easy">EASY</div>
+                </button>
+                <button class="pj-scenario-card" data-scenario="remote_web">
+                    <div class="pj-scenario-icon">🌐</div>
+                    <div class="pj-scenario-name">Internet Web Request</div>
+                    <div class="pj-scenario-desc">HTTP through gateway</div>
+                    <div class="pj-difficulty medium">MEDIUM</div>
+                </button>
+                <button class="pj-scenario-card" data-scenario="dns_lookup">
+                    <div class="pj-scenario-icon">📖</div>
+                    <div class="pj-scenario-name">DNS Resolution</div>
+                    <div class="pj-scenario-desc">Name to IP lookup</div>
+                    <div class="pj-difficulty easy">EASY</div>
+                </button>
+                <button class="pj-scenario-card" data-scenario="arp_discovery">
+                    <div class="pj-scenario-icon">🔍</div>
+                    <div class="pj-scenario-name">ARP Discovery</div>
+                    <div class="pj-scenario-desc">MAC address resolution</div>
+                    <div class="pj-difficulty medium">MEDIUM</div>
+                </button>
+                <button class="pj-scenario-card" data-scenario="tcp_handshake">
+                    <div class="pj-scenario-icon">🤝</div>
+                    <div class="pj-scenario-name">TCP Handshake</div>
+                    <div class="pj-scenario-desc">Connection establishment</div>
+                    <div class="pj-difficulty medium">MEDIUM</div>
+                </button>
+                <button class="pj-scenario-card" data-scenario="vlan_basics">
+                    <div class="pj-scenario-icon">🏷️</div>
+                    <div class="pj-scenario-name">VLAN Basics</div>
+                    <div class="pj-scenario-desc">Virtual LAN concepts</div>
+                    <div class="pj-difficulty hard">HARD</div>
+                </button>
+            </div>
+
+            <button id="btn-back-pj-select" class="menu-btn small">BACK</button>
+        </div>
+
+        <!-- OSI Trainer Screen -->
+        <div id="osi-trainer-screen" class="screen">
+            <div class="osi-header">
+                <div class="stat">
+                    <span class="stat-label">SCORE</span>
+                    <span id="osi-score" class="stat-value">0</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">STREAK</span>
+                    <span id="osi-streak" class="stat-value">0x</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">PROGRESS</span>
+                    <span id="osi-progress" class="stat-value">0/15</span>
+                </div>
+            </div>
+
+            <div class="osi-game-area">
+                <!-- TCP/IP 5-Layer Model (Primary) -->
+                <div class="osi-diagram" id="osi-layer-diagram">
+                    <div class="osi-model-label">TCP/IP MODEL</div>
+                    <div class="osi-layer osi-l5">5 - Application</div>
+                    <div class="osi-layer osi-l4">4 - Transport</div>
+                    <div class="osi-layer osi-l3">3 - Network</div>
+                    <div class="osi-layer osi-l2">2 - Data Link</div>
+                    <div class="osi-layer osi-l1">1 - Physical</div>
+                    <div class="osi-note">OSI model has 7 layers (splits Application into Session, Presentation, Application)</div>
+                </div>
+
+                <!-- Question Area -->
+                <div class="osi-question-container">
+                    <div id="osi-question-area" class="osi-question-area">
+                        <div id="osi-question-text" class="osi-question-text">
+                            Question loading...
+                        </div>
+                        <div id="osi-options" class="osi-options">
+                            <!-- Options generated dynamically -->
+                        </div>
+                    </div>
+
+                    <div id="osi-feedback" class="osi-feedback"></div>
+                </div>
+            </div>
+
+            <div class="osi-footer">
+                <button id="btn-osi-quit" class="game-btn">QUIT</button>
+                <div class="osi-hint">Test your OSI knowledge!</div>
+            </div>
+        </div>
+
+        <!-- Help Screen -->
+        <div id="help-screen" class="screen">
+            <h2>HOW TO PLAY</h2>
+            <div class="help-content">
+                <div class="help-section">
+                    <h3>SPEED SUBNET</h3>
+                    <p>Quick-fire CIDR training! A host count appears - select the minimum CIDR that supports that many hosts. Build streaks for bonus points!</p>
+                </div>
+                <div class="help-section">
+                    <h3>CLIENT SCENARIOS</h3>
+                    <p>Real-world network design! Each scenario is a client with specific subnet requirements. Allocate efficiently to earn 3 stars.</p>
+                </div>
+                <div class="help-section">
+                    <h3>PACKET JOURNEY</h3>
+                    <p>Follow Packie the packet through the network! Learn how data travels from your computer to its destination, including encapsulation, ARP, DNS, and routing.</p>
+                </div>
+                <div class="help-section">
+                    <h3>OSI MODEL QUIZ</h3>
+                    <p>Test your knowledge of the 7-layer OSI model! Learn layer names, PDUs, protocols, and how encapsulation works.</p>
+                </div>
+                <div class="help-section">
+                    <h3>NETWORK CLASSES</h3>
+                    <table class="cidr-table">
+                        <tr><td>Class A</td><td>1.0.0.0 - 126.x.x.x</td><td>/8 default</td></tr>
+                        <tr><td>Class B</td><td>128.0.0.0 - 191.x.x.x</td><td>/16 default</td></tr>
+                        <tr><td>Class C</td><td>192.0.0.0 - 223.x.x.x</td><td>/24 default</td></tr>
+                    </table>
+                </div>
+                <div class="help-section">
+                    <h3>CIDR QUICK REFERENCE</h3>
+                    <table class="cidr-table">
+                        <tr><td>/24</td><td>254 hosts</td><td>/28</td><td>14 hosts</td></tr>
+                        <tr><td>/25</td><td>126 hosts</td><td>/29</td><td>6 hosts</td></tr>
+                        <tr><td>/26</td><td>62 hosts</td><td>/30</td><td>2 hosts</td></tr>
+                        <tr><td>/27</td><td>30 hosts</td><td></td><td></td></tr>
+                    </table>
+                </div>
+                <div class="help-section">
+                    <h3>COMMON PORTS</h3>
+                    <table class="cidr-table">
+                        <tr><td>20/21</td><td>FTP</td><td>80</td><td>HTTP</td></tr>
+                        <tr><td>22</td><td>SSH</td><td>443</td><td>HTTPS</td></tr>
+                        <tr><td>23</td><td>Telnet</td><td>53</td><td>DNS</td></tr>
+                        <tr><td>25</td><td>SMTP</td><td>3389</td><td>RDP</td></tr>
+                    </table>
+                </div>
+                <div class="help-section">
+                    <h3>PRIVATE IP RANGES</h3>
+                    <table class="cidr-table">
+                        <tr><td>Class A</td><td colspan="3">10.0.0.0 - 10.255.255.255</td></tr>
+                        <tr><td>Class B</td><td colspan="3">172.16.0.0 - 172.31.255.255</td></tr>
+                        <tr><td>Class C</td><td colspan="3">192.168.0.0 - 192.168.255.255</td></tr>
+                    </table>
+                </div>
+                <div class="help-section">
+                    <h3>CONTROLS</h3>
+                    <p>MOUSE: Click requirement to select, click grid to place<br>
+                    1-4: Quick answer in Speed Subnet<br>
+                    1-7: Select CIDR size in Scenarios<br>
+                    Z: Undo last placement<br>
+                    SPACE: Pause</p>
+                </div>
+            </div>
+            <button id="btn-back-help" class="menu-btn">BACK</button>
+        </div>
+    </div>
+
+    <script src="js/subnet.js"></script>
+    <script src="js/sounds.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/scenarios.js"></script>
+    <script src="js/mascot.js"></script>
+    <script src="js/speedsubnet.js"></script>
+    <script src="js/grid.js"></script>
+    <script src="js/building.js"></script>
+    <script src="js/requirements.js"></script>
+    <script src="js/levels.js"></script>
+    <script src="js/stats.js"></script>
+    <script src="js/dailychallenge.js"></script>
+    <script src="js/tutorial.js"></script>
+    <script src="js/practice.js"></script>
+    <script src="js/packetjourney.js"></script>
+    <script src="js/ositrainer.js"></script>
+    <script src="js/leaderboard.js"></script>
+    <script src="js/themes.js"></script>
+    <script src="js/savedata.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/game.js"></script>
+    <script>
+        // Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('SW registered:', registration.scope);
+
+                        // Check for updates
+                        registration.addEventListener('updatefound', () => {
+                            const newWorker = registration.installing;
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    // New version available
+                                    if (confirm('New version available! Reload to update?')) {
+                                        newWorker.postMessage('skipWaiting');
+                                        window.location.reload();
+                                    }
+                                }
+                            });
+                        });
+                    })
+                    .catch(err => {
+                        console.log('SW registration failed:', err);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
