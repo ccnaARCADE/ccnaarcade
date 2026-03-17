@@ -16,52 +16,219 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <a href="#main-menu" class="skip-link">Skip to main content</a>
+    <a href="#launch-panel" class="skip-link">Skip to main content</a>
     <div id="game-container" role="main">
-        <!-- Main Menu -->
-        <div id="main-menu" class="screen active">
-            <h1 class="title">CCNA<br>ARCADE</h1>
-            <p class="subtitle">Network Training Game</p>
+        <!-- Launch Panel - Main Entry Point -->
+        <div id="launch-panel" class="screen active">
+            <header class="launch-header">
+                <div class="launch-logo">
+                    <div class="logo-icon">
+                        <span class="logo-bracket">[</span>
+                        <span class="logo-text">N</span>
+                        <span class="logo-bracket">]</span>
+                    </div>
+                    <h1 class="launch-title">CCNA ARCADE</h1>
+                    <p class="launch-tagline">Network Training Suite</p>
+                </div>
+            </header>
 
-            <!-- Topic Areas -->
-            <div class="topic-areas">
-                <div class="topic-section">
-                    <div class="topic-header">IP & SUBNETTING</div>
-                    <div class="topic-buttons">
-                        <button id="btn-arcade" class="menu-btn">SPEED SUBNET</button>
-                        <button id="btn-daily" class="menu-btn daily">DAILY CHALLENGE</button>
-                        <button id="btn-puzzle" class="menu-btn">CLIENT SCENARIOS</button>
-                        <button id="btn-practice" class="menu-btn">PRACTICE MODE</button>
+            <main class="launch-modules">
+                <!-- Training Module Cards -->
+                <div class="module-grid">
+                    <!-- Subnet Mastery Card -->
+                    <div class="module-card subnet-card" id="card-subnet">
+                        <div class="card-icon">
+                            <div class="icon-subnet">
+                                <span>/24</span>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <h2 class="card-title">SUBNET MASTERY</h2>
+                            <p class="card-desc">CIDR, subnetting, IP addressing</p>
+                            <div class="card-modes">
+                                <span class="mode-tag">Speed</span>
+                                <span class="mode-tag">Daily</span>
+                                <span class="mode-tag">Scenarios</span>
+                            </div>
+                        </div>
+                        <div class="card-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="subnet-progress" style="width: 0%"></div>
+                            </div>
+                            <span class="progress-label">0% Complete</span>
+                        </div>
+                        <button class="card-btn" id="btn-launch-subnet">LAUNCH</button>
+                    </div>
+
+                    <!-- Packet Journey Card -->
+                    <div class="module-card packet-card" id="card-packet">
+                        <div class="card-icon">
+                            <div class="icon-packet">
+                                <span class="packet-dot"></span>
+                                <span class="packet-trail"></span>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <h2 class="card-title">PACKET JOURNEY</h2>
+                            <p class="card-desc">Follow packets through the network</p>
+                            <div class="card-modes">
+                                <span class="mode-tag">ARP</span>
+                                <span class="mode-tag">DNS</span>
+                                <span class="mode-tag">TCP</span>
+                            </div>
+                        </div>
+                        <div class="card-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="packet-progress" style="width: 0%"></div>
+                            </div>
+                            <span class="progress-label">0/6 Scenarios</span>
+                        </div>
+                        <button class="card-btn" id="btn-launch-packet">LAUNCH</button>
+                    </div>
+
+                    <!-- OSI/TCP-IP Card -->
+                    <div class="module-card osi-card" id="card-osi">
+                        <div class="card-icon">
+                            <div class="icon-osi">
+                                <div class="layer-stack">
+                                    <span class="layer l5"></span>
+                                    <span class="layer l4"></span>
+                                    <span class="layer l3"></span>
+                                    <span class="layer l2"></span>
+                                    <span class="layer l1"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <h2 class="card-title">OSI / TCP-IP</h2>
+                            <p class="card-desc">Network models & protocols</p>
+                            <div class="card-modes">
+                                <span class="mode-tag">Layers</span>
+                                <span class="mode-tag">PDUs</span>
+                                <span class="mode-tag">Protocols</span>
+                            </div>
+                        </div>
+                        <div class="card-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="osi-progress-bar" style="width: 0%"></div>
+                            </div>
+                            <span class="progress-label">High: 0</span>
+                        </div>
+                        <button class="card-btn" id="btn-launch-osi">LAUNCH</button>
+                    </div>
+
+                    <!-- Coming Soon Card -->
+                    <div class="module-card coming-soon-card" id="card-coming">
+                        <div class="card-icon">
+                            <div class="icon-coming">
+                                <span>?</span>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <h2 class="card-title">MORE COMING</h2>
+                            <p class="card-desc">ACLs, VLANs, Routing & more</p>
+                            <div class="card-modes">
+                                <span class="mode-tag">Soon</span>
+                            </div>
+                        </div>
+                        <div class="card-progress">
+                            <div class="progress-bar"></div>
+                            <span class="progress-label">In Development</span>
+                        </div>
+                        <button class="card-btn" disabled>COMING SOON</button>
+                    </div>
+                </div>
+            </main>
+
+            <footer class="launch-footer">
+                <div class="footer-stats">
+                    <div class="footer-stat">
+                        <span class="stat-icon">★</span>
+                        <span class="stat-val" id="total-score">0</span>
+                        <span class="stat-name">Total Score</span>
+                    </div>
+                    <div class="footer-stat">
+                        <span class="stat-icon">🏆</span>
+                        <span class="stat-val" id="achievements-count">0</span>
+                        <span class="stat-name">Achievements</span>
+                    </div>
+                    <div class="footer-stat">
+                        <span class="stat-icon">📅</span>
+                        <span class="stat-val" id="streak-count">0</span>
+                        <span class="stat-name">Day Streak</span>
+                    </div>
+                </div>
+                <div class="footer-nav">
+                    <button id="btn-lp-settings" class="footer-btn">⚙ SETTINGS</button>
+                    <button id="btn-lp-stats" class="footer-btn">📊 STATS</button>
+                    <button id="btn-lp-achievements" class="footer-btn">🏅 BADGES</button>
+                    <button id="btn-lp-help" class="footer-btn">? HELP</button>
+                </div>
+                <div class="footer-version">
+                    <span>CCNA Arcade v3.1</span>
+                    <span class="separator">|</span>
+                    <span>Offline Ready</span>
+                </div>
+            </footer>
+        </div>
+
+        <!-- Subnet Hub Menu -->
+        <div id="main-menu" class="screen">
+            <div class="hub-header">
+                <button id="btn-back-to-launch" class="back-btn">← BACK</button>
+                <h1 class="hub-title">SUBNET MASTERY</h1>
+            </div>
+
+            <div class="hub-content">
+                <div class="hub-modes">
+                    <div class="hub-mode-card" id="hub-speed">
+                        <div class="mode-icon speed-icon">⚡</div>
+                        <h3>SPEED SUBNET</h3>
+                        <p>Quick-fire CIDR training</p>
+                        <button id="btn-arcade" class="mode-btn">PLAY</button>
+                    </div>
+
+                    <div class="hub-mode-card daily-mode" id="hub-daily">
+                        <div class="mode-icon daily-icon">📅</div>
+                        <h3>DAILY CHALLENGE</h3>
+                        <p>New challenge every day</p>
+                        <button id="btn-daily" class="mode-btn">PLAY</button>
+                    </div>
+
+                    <div class="hub-mode-card" id="hub-scenarios">
+                        <div class="mode-icon scenario-icon">🏢</div>
+                        <h3>CLIENT SCENARIOS</h3>
+                        <p>Real-world network design</p>
+                        <button id="btn-puzzle" class="mode-btn">PLAY</button>
+                    </div>
+
+                    <div class="hub-mode-card" id="hub-practice">
+                        <div class="mode-icon practice-icon">🎯</div>
+                        <h3>PRACTICE MODE</h3>
+                        <p>Focus on weak areas</p>
+                        <button id="btn-practice" class="mode-btn">PLAY</button>
                     </div>
                 </div>
 
-                <div class="topic-section">
-                    <div class="topic-header">PACKET JOURNEY</div>
-                    <div class="topic-buttons">
-                        <button id="btn-packet-journey" class="menu-btn packet">PACKET JOURNEY</button>
+                <div class="hub-stats">
+                    <div class="hub-stat">
+                        <span class="label">HIGH SCORE</span>
+                        <span id="high-score-display" class="value">0</span>
                     </div>
-                </div>
-
-                <div class="topic-section">
-                    <div class="topic-header">OSI & PROTOCOLS</div>
-                    <div class="topic-buttons">
-                        <button id="btn-osi-trainer" class="menu-btn osi">OSI MODEL QUIZ</button>
+                    <div class="hub-stat">
+                        <span class="label">ACCURACY</span>
+                        <span id="accuracy-display" class="value">--%</span>
+                    </div>
+                    <div class="hub-stat">
+                        <span class="label">DIFFICULTY</span>
+                        <span id="difficulty-display" class="value">EASY</span>
                     </div>
                 </div>
             </div>
 
-            <div class="menu-buttons secondary-menu">
-                <button id="btn-help" class="menu-btn">HOW TO PLAY</button>
-                <button id="btn-settings" class="menu-btn secondary">SETTINGS</button>
-                <button id="btn-leaderboard" class="menu-btn secondary">LEADERBOARD</button>
-                <button id="btn-achievements" class="menu-btn secondary">ACHIEVEMENTS</button>
-                <button id="btn-stats" class="menu-btn secondary">STATISTICS</button>
-            </div>
-            <div class="high-score">
-                HIGH SCORE: <span id="high-score-display">0</span>
-            </div>
-            <div class="difficulty-badge">
-                DIFFICULTY: <span id="difficulty-display">BEGINNER</span>
+            <div class="hub-footer">
+                <button id="btn-help" class="hub-btn">HOW TO PLAY</button>
+                <button id="btn-leaderboard" class="hub-btn">LEADERBOARD</button>
             </div>
         </div>
 

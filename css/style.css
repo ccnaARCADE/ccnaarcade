@@ -90,10 +90,561 @@ body {
     min-width: 200px;
 }
 
-/* Main Menu */
+/* ========================================
+   LAUNCH PANEL - Main Entry Point
+   ======================================== */
+#launch-panel {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    padding: 20px;
+}
+
+/* Launch Header */
+.launch-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.launch-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo-icon {
+    font-size: 32px;
+    color: var(--color-primary);
+    margin-bottom: 5px;
+}
+
+.logo-bracket {
+    color: var(--color-secondary);
+}
+
+.logo-text {
+    color: var(--color-primary);
+    text-shadow: 0 0 20px var(--color-primary);
+}
+
+.launch-title {
+    font-size: clamp(24px, 6vw, 36px);
+    color: var(--color-text-primary);
+    letter-spacing: 4px;
+    margin: 0;
+    text-shadow:
+        0 0 10px var(--color-primary),
+        0 2px 0 #0a0a1a;
+}
+
+.launch-tagline {
+    font-size: 10px;
+    color: var(--color-text-secondary);
+    letter-spacing: 3px;
+    margin-top: 5px;
+}
+
+/* Module Grid */
+.launch-modules {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.module-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 800px;
+    width: 100%;
+}
+
+/* Module Cards */
+.module-card {
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.module-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--card-accent, var(--color-primary)), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.module-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--card-accent, var(--color-primary));
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+                0 0 20px color-mix(in srgb, var(--card-accent, var(--color-primary)) 30%, transparent);
+}
+
+.module-card:hover::before {
+    opacity: 1;
+}
+
+/* Card Accent Colors */
+.subnet-card { --card-accent: #00d4ff; }
+.packet-card { --card-accent: #9933ff; }
+.osi-card { --card-accent: #ff6b9d; }
+.coming-soon-card {
+    --card-accent: #666;
+    opacity: 0.6;
+}
+
+.coming-soon-card:hover {
+    transform: none;
+    cursor: not-allowed;
+}
+
+/* Card Icon */
+.card-icon {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    margin-bottom: 5px;
+}
+
+.icon-subnet {
+    font-size: 18px;
+    color: #00d4ff;
+    font-weight: bold;
+}
+
+.icon-packet {
+    position: relative;
+    width: 40px;
+    height: 20px;
+}
+
+.packet-dot {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: #9933ff;
+    border-radius: 50%;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    animation: packetMove 2s infinite;
+}
+
+.packet-trail {
+    position: absolute;
+    height: 2px;
+    width: 100%;
+    background: linear-gradient(90deg, #9933ff, transparent);
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+@keyframes packetMove {
+    0%, 100% { left: 0; }
+    50% { left: 28px; }
+}
+
+.icon-osi .layer-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.icon-osi .layer {
+    width: 30px;
+    height: 6px;
+    border-radius: 2px;
+}
+
+.icon-osi .l5 { background: #4CAF50; }
+.icon-osi .l4 { background: #2196F3; }
+.icon-osi .l3 { background: #FF9800; }
+.icon-osi .l2 { background: #9C27B0; }
+.icon-osi .l1 { background: #607D8B; }
+
+.icon-coming {
+    font-size: 24px;
+    color: #666;
+}
+
+/* Card Content */
+.card-content {
+    flex: 1;
+}
+
+.card-title {
+    font-size: 12px;
+    color: var(--card-accent, var(--color-primary));
+    margin: 0 0 8px 0;
+    letter-spacing: 1px;
+}
+
+.card-desc {
+    font-size: 8px;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.card-modes {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.mode-tag {
+    font-size: 6px;
+    padding: 3px 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    color: var(--color-text-secondary);
+}
+
+/* Card Progress */
+.card-progress {
+    margin-top: auto;
+}
+
+.progress-bar {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 6px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--card-accent, var(--color-primary));
+    border-radius: 2px;
+    transition: width 0.5s ease;
+}
+
+.progress-label {
+    font-size: 7px;
+    color: var(--color-text-secondary);
+}
+
+/* Card Button */
+.card-btn {
+    width: 100%;
+    padding: 12px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    background: transparent;
+    border: 2px solid var(--card-accent, var(--color-primary));
+    color: var(--card-accent, var(--color-primary));
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 10px;
+}
+
+.card-btn:hover:not(:disabled) {
+    background: var(--card-accent, var(--color-primary));
+    color: var(--color-background);
+}
+
+.card-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Launch Footer */
+.launch-footer {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.footer-stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 20px;
+}
+
+.footer-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.footer-stat .stat-icon {
+    font-size: 16px;
+}
+
+.footer-stat .stat-val {
+    font-size: 14px;
+    color: var(--color-primary);
+}
+
+.footer-stat .stat-name {
+    font-size: 7px;
+    color: var(--color-text-secondary);
+}
+
+.footer-nav {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.footer-btn {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    padding: 10px 16px;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.footer-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+.footer-version {
+    font-size: 7px;
+    color: var(--color-text-secondary);
+    opacity: 0.6;
+}
+
+.footer-version .separator {
+    margin: 0 8px;
+}
+
+/* ========================================
+   SUBNET HUB MENU (formerly main-menu)
+   ======================================== */
+.hub-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.back-btn {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    padding: 10px 16px;
+    background: transparent;
+    border: 2px solid var(--color-border);
+    color: var(--color-text-secondary);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.back-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+.hub-title {
+    font-size: 24px;
+    color: var(--color-primary);
+    letter-spacing: 2px;
+    margin: 0;
+}
+
+.hub-content {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.hub-modes {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.hub-mode-card {
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s;
+}
+
+.hub-mode-card:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+}
+
+.hub-mode-card.daily-mode {
+    border-color: var(--color-warning);
+}
+
+.hub-mode-card.daily-mode:hover {
+    border-color: var(--color-warning);
+    box-shadow: 0 0 20px rgba(255, 212, 0, 0.2);
+}
+
+.mode-icon {
+    font-size: 28px;
+    margin-bottom: 12px;
+}
+
+.hub-mode-card h3 {
+    font-size: 11px;
+    color: var(--color-text-primary);
+    margin-bottom: 8px;
+}
+
+.hub-mode-card p {
+    font-size: 8px;
+    color: var(--color-text-secondary);
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.mode-btn {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    padding: 12px 24px;
+    background: var(--color-primary);
+    border: none;
+    color: var(--color-background);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.mode-btn:hover {
+    background: #00f0ff;
+    transform: scale(1.05);
+}
+
+.daily-mode .mode-btn {
+    background: var(--color-warning);
+}
+
+.daily-mode .mode-btn:hover {
+    background: #ffe033;
+}
+
+.hub-stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 20px;
+    background: var(--color-surface);
+    border-radius: 8px;
+}
+
+.hub-stat {
+    text-align: center;
+}
+
+.hub-stat .label {
+    display: block;
+    font-size: 8px;
+    color: var(--color-text-secondary);
+    margin-bottom: 5px;
+}
+
+.hub-stat .value {
+    font-size: 16px;
+    color: var(--color-primary);
+}
+
+.hub-footer {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.hub-btn {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    padding: 12px 20px;
+    background: transparent;
+    border: 2px solid var(--color-border);
+    color: var(--color-text-secondary);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.hub-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+/* Responsive Launch Panel */
+@media (max-width: 768px) {
+    .module-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hub-modes {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-stats {
+        gap: 20px;
+    }
+
+    .hub-stats {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .launch-title {
+        font-size: 20px;
+    }
+
+    .module-card {
+        padding: 15px;
+    }
+
+    .card-title {
+        font-size: 10px;
+    }
+
+    .footer-nav {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-btn {
+        width: 80%;
+    }
+}
+
+/* Main Menu (legacy, keeping for compatibility) */
 #main-menu {
     text-align: center;
-    padding-top: 80px;
+    padding-top: 20px;
 }
 
 .title {

@@ -20,6 +20,7 @@ const UI = {
     init() {
         // Cache screen elements
         this.screens = {
+            launchPanel: document.getElementById('launch-panel'),
             mainMenu: document.getElementById('main-menu'),
             scenarioSelect: document.getElementById('scenario-select'),
             speedSubnetScreen: document.getElementById('speed-subnet-screen'),
@@ -66,11 +67,19 @@ const UI = {
             achievementPopup: document.getElementById('achievement-popup'),
             popupIcon: document.getElementById('popup-icon'),
             popupName: document.getElementById('popup-name'),
-            hintsToggle: document.getElementById('toggle-hints')
+            hintsToggle: document.getElementById('toggle-hints'),
+            // Launch panel elements
+            totalScoreDisplay: document.getElementById('total-score'),
+            achievementsCountDisplay: document.getElementById('achievements-count'),
+            streakCountDisplay: document.getElementById('streak-count'),
+            subnetProgress: document.getElementById('subnet-progress'),
+            packetProgress: document.getElementById('packet-progress'),
+            osiProgressBar: document.getElementById('osi-progress-bar'),
+            accuracyDisplay: document.getElementById('accuracy-display')
         };
 
         this.setupCidrButtons();
-        this.showScreen('mainMenu');
+        this.showScreen('launchPanel');
     },
 
     /**

@@ -109,8 +109,9 @@ const Game = {
         // Setup event listeners
         this.setupEventListeners();
 
-        // Initial render
-        UI.showScreen('mainMenu');
+        // Initial render - show launch panel and update stats
+        UI.showScreen('launchPanel');
+        this.updateLaunchPanelStats();
     },
 
     /**
@@ -145,12 +146,31 @@ const Game = {
      * Setup all event listeners
      */
     setupEventListeners() {
-        // Menu buttons
+        // ========================================
+        // LAUNCH PANEL BUTTONS
+        // ========================================
+        this.addClickListener('btn-launch-subnet', () => this.showSubnetHub());
+        this.addClickListener('btn-launch-packet', () => this.showPacketJourneySelect());
+        this.addClickListener('btn-launch-osi', () => this.startOSITrainer());
+        this.addClickListener('btn-lp-settings', () => this.showSettingsFromLaunch());
+        this.addClickListener('btn-lp-stats', () => this.showStatisticsFromLaunch());
+        this.addClickListener('btn-lp-achievements', () => this.showAchievementsFromLaunch());
+        this.addClickListener('btn-lp-help', () => this.showHelpFromLaunch());
+
+        // Module card click handlers (whole card clickable)
+        this.addClickListener('card-subnet', () => this.showSubnetHub());
+        this.addClickListener('card-packet', () => this.showPacketJourneySelect());
+        this.addClickListener('card-osi', () => this.startOSITrainer());
+
+        // ========================================
+        // SUBNET HUB BUTTONS (formerly main-menu)
+        // ========================================
+        this.addClickListener('btn-back-to-launch', () => UI.showScreen('launchPanel'));
         this.addClickListener('btn-arcade', () => this.startSpeedSubnet());
         this.addClickListener('btn-puzzle', () => this.showScenarioSelect());
         this.addClickListener('btn-practice', () => this.showPracticeMode());
         this.addClickListener('btn-help', () => UI.showScreen('helpScreen'));
-        this.addClickListener('btn-back-help', () => UI.showScreen('mainMenu'));
+        this.addClickListener('btn-back-help', () => this.goBackFromHelp());
         this.addClickListener('btn-back-scenarios', () => UI.showScreen('mainMenu'));
         this.addClickListener('btn-back-practice', () => UI.showScreen('mainMenu'));
         this.addClickListener('btn-start-practice', () => this.startPracticeSession());
@@ -178,7 +198,7 @@ const Game = {
         this.addClickListener('btn-settings', () => this.showSettings());
         this.addClickListener('btn-back-settings', () => this.exitSettings());
         this.addClickListener('btn-achievements', () => this.showAchievements());
-        this.addClickListener('btn-back-achievements', () => UI.showScreen('mainMenu'));
+        this.addClickListener('btn-back-achievements', () => this.exitAchievements());
 
         // Daily Challenge
         this.addClickListener('btn-daily', () => this.showDailyChallenge());
@@ -187,7 +207,7 @@ const Game = {
 
         // Statistics
         this.addClickListener('btn-stats', () => this.showStatistics());
-        this.addClickListener('btn-back-stats', () => UI.showScreen('mainMenu'));
+        this.addClickListener('btn-back-stats', () => this.exitStatistics());
 
         // Packet Journey
         this.addClickListener('btn-packet-journey', () => this.showPacketJourneySelect());
@@ -467,6 +487,128 @@ const Game = {
         SpeedSubnet.active = false;
         this.state = 'MENU';
         UI.showScreen('mainMenu');
+    },
+
+    // ========================================
+    // LAUNCH PANEL NAVIGATION
+    // ========================================
+
+    /**
+     * Show the Subnet Mastery hub (formerly main menu)
+     */
+    showSubnetHub() {
+        this.updateLaunchPanelStats();
+        UI.showScreen('mainMenu');
+    },
+
+    /**
+     * Show settings from launch panel
+     */
+    showSettingsFromLaunch() {
+        this.settingsFromLaunch = true;
+        this.showSettings();
+    },
+
+    /**
+     * Show statistics from launch panel
+     */
+    showStatisticsFromLaunch() {
+        this.statsFromLaunch = true;
+        this.showStatistics();
+    },
+
+    /**
+     * Show achievements from launch panel
+     */
+    showAchievementsFromLaunch() {
+        this.achievementsFromLaunch = true;
+        this.showAchievements();
+    },
+
+    /**
+     * Show help from launch panel
+     */
+    showHelpFromLaunch() {
+        this.helpFromLaunch = true;
+        UI.showScreen('helpScreen');
+    },
+
+    /**
+     * Go back from help screen (context-aware)
+     */
+    goBackFromHelp() {
+        if (this.helpFromLaunch) {
+            this.helpFromLaunch = false;
+            UI.showScreen('launchPanel');
+        } else {
+            UI.showScreen('mainMenu');
+        }
+    },
+
+    /**
+     * Update launch panel statistics display
+     */
+    updateLaunchPanelStats() {
+        // Update total score
+        const totalScoreEl = document.getElementById('total-score');
+        if (totalScoreEl) {
+            totalScoreEl.textContent = this.highScore.toLocaleString();
+        }
+
+        // Update achievements count
+        const achieveCountEl = document.getElementById('achievements-count');
+        if (achieveCountEl && typeof Achievements !== 'undefined') {
+            const unlocked = Achievements.list.filter(a => a.unlocked).length;
+            achieveCountEl.textContent = unlocked;
+        }
+
+        // Update day streak
+        const streakEl = document.getElementById('streak-count');
+        if (streakEl && typeof DailyChallenge !== 'undefined') {
+            streakEl.textContent = DailyChallenge.currentStreak || 0;
+        }
+
+        // Update module progress bars
+        this.updateModuleProgress();
+    },
+
+    /**
+     * Update progress bars on launch panel module cards
+     */
+    updateModuleProgress() {
+        // Subnet progress (based on scenarios completed)
+        const subnetProgressEl = document.getElementById('subnet-progress');
+        if (subnetProgressEl) {
+            const totalScenarios = Scenarios.getAll().length;
+            const completed = Object.keys(this.scenarioProgress).length;
+            const pct = totalScenarios > 0 ? Math.round((completed / totalScenarios) * 100) : 0;
+            subnetProgressEl.style.width = pct + '%';
+            const label = subnetProgressEl.parentElement?.nextElementSibling;
+            if (label) label.textContent = `${pct}% Complete`;
+        }
+
+        // Packet Journey progress
+        const packetProgressEl = document.getElementById('packet-progress');
+        if (packetProgressEl && typeof PacketJourney !== 'undefined') {
+            const totalScenarios = PacketJourney.scenarios?.length || 6;
+            const completed = PacketJourney.completedScenarios?.size || 0;
+            const pct = Math.round((completed / totalScenarios) * 100);
+            packetProgressEl.style.width = pct + '%';
+            const label = packetProgressEl.parentElement?.nextElementSibling;
+            if (label) label.textContent = `${completed}/${totalScenarios} Scenarios`;
+        }
+
+        // OSI progress (high score based)
+        const osiProgressEl = document.getElementById('osi-progress-bar');
+        if (osiProgressEl && typeof Leaderboard !== 'undefined') {
+            const osiScores = Leaderboard.osiTrainer || [];
+            const highScore = osiScores.length > 0 ? osiScores[0].score : 0;
+            // Use 2000 as the "mastery" score target
+            const pct = Math.min(100, Math.round((highScore / 2000) * 100));
+            osiProgressEl.style.width = pct + '%';
+            const label = osiProgressEl.parentElement?.nextElementSibling;
+            if (label) label.textContent = `High: ${highScore}`;
+        }
     },
 
     /**
@@ -946,16 +1088,19 @@ const Game = {
     },
 
     /**
-     * Exit settings screen
+     * Exit settings screen (context-aware)
      */
     exitSettings() {
         if (this.settingsFromGame) {
             UI.showScreen('gameScreen');
             UI.showOverlay('pauseMenu');
+        } else if (this.settingsFromLaunch) {
+            UI.showScreen('launchPanel');
         } else {
             UI.showScreen('mainMenu');
         }
         this.settingsFromGame = false;
+        this.settingsFromLaunch = false;
     },
 
     /**
@@ -964,6 +1109,18 @@ const Game = {
     showAchievements() {
         UI.populateAchievements(Achievements.getAll());
         UI.showScreen('achievementsScreen');
+    },
+
+    /**
+     * Exit achievements screen (context-aware)
+     */
+    exitAchievements() {
+        if (this.achievementsFromLaunch) {
+            this.achievementsFromLaunch = false;
+            UI.showScreen('launchPanel');
+        } else {
+            UI.showScreen('mainMenu');
+        }
     },
 
     /**
@@ -1224,6 +1381,18 @@ const Game = {
         }
 
         UI.showScreen('statsScreen');
+    },
+
+    /**
+     * Exit statistics screen (context-aware)
+     */
+    exitStatistics() {
+        if (this.statsFromLaunch) {
+            this.statsFromLaunch = false;
+            UI.showScreen('launchPanel');
+        } else {
+            UI.showScreen('mainMenu');
+        }
     },
 
     /**
