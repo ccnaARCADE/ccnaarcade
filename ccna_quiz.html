@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none';">
+    <title>CCNA Cisco IOS Commands Quiz</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #00d4ff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 1.1rem;
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            height: 12px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00d4ff, #00ff88);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            color: #aaa;
+        }
+
+        .score {
+            color: #00ff88;
+            font-weight: bold;
+        }
+
+        .question-card {
+            background: rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .question-number {
+            color: #00d4ff;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            color: #fff;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.15);
+            border-radius: 12px;
+            padding: 16px 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+        }
+
+        .option:hover:not(.disabled) {
+            background: rgba(255,255,255,0.1);
+            border-color: #00d4ff;
+            transform: translateX(5px);
+        }
+
+        .option.selected {
+            border-color: #00d4ff;
+            background: rgba(0, 212, 255, 0.15);
+        }
+
+        .option.correct {
+            border-color: #00ff88;
+            background: rgba(0, 255, 136, 0.2);
+        }
+
+        .option.incorrect {
+            border-color: #ff4757;
+            background: rgba(255, 71, 87, 0.2);
+        }
+
+        .option.disabled {
+            cursor: default;
+        }
+
+        .option-letter {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            margin-right: 12px;
+            font-weight: bold;
+        }
+
+        .explanation {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(0, 212, 255, 0.1);
+            border-radius: 12px;
+            border-left: 4px solid #00d4ff;
+            display: none;
+        }
+
+        .explanation.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .explanation h4 {
+            color: #00d4ff;
+            margin-bottom: 8px;
+        }
+
+        .btn {
+            background: linear-gradient(90deg, #00d4ff, #00ff88);
+            color: #1a1a2e;
+            border: none;
+            padding: 14px 40px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: none;
+            margin: 20px auto 0;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn.show {
+            display: block;
+        }
+
+        .results {
+            text-align: center;
+            padding: 50px 30px;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+        }
+
+        .results h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .final-score {
+            font-size: 5rem;
+            font-weight: bold;
+            background: linear-gradient(90deg, #00d4ff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 30px 0;
+        }
+
+        .grade {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: #aaa;
+        }
+
+        .grade-message {
+            font-size: 1.2rem;
+            color: #00ff88;
+            margin-bottom: 30px;
+        }
+
+        .restart-btn {
+            display: inline-block;
+        }
+
+        .start-screen {
+            text-align: center;
+            padding: 60px 30px;
+        }
+
+        .start-screen h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .start-screen p {
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        .start-screen ul {
+            text-align: left;
+            display: inline-block;
+            margin: 20px 0 30px;
+            color: #aaa;
+        }
+
+        .start-screen li {
+            margin: 10px 0;
+            padding-left: 10px;
+        }
+
+        .topic-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0 30px;
+        }
+
+        .tag {
+            background: rgba(0, 212, 255, 0.2);
+            color: #00d4ff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .quiz-container {
+            display: none;
+        }
+
+        .quiz-container.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .question-text { font-size: 1.1rem; }
+            .option { padding: 14px 16px; font-size: 0.95rem; }
+            .final-score { font-size: 3.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>CCNA Quiz</h1>
+            <p class="subtitle">Cisco IOS Commands Practice</p>
+        </header>
+
+        <div class="question-card start-screen" id="startScreen">
+            <h2>Ready to Test Your Knowledge?</h2>
+            <p>50 questions covering essential Cisco IOS commands</p>
+
+            <div class="topic-tags">
+                <span class="tag">CLI Navigation</span>
+                <span class="tag">Show Commands</span>
+                <span class="tag">VLANs</span>
+                <span class="tag">Trunking</span>
+                <span class="tag">STP</span>
+                <span class="tag">OSPF</span>
+                <span class="tag">EIGRP</span>
+                <span class="tag">Static Routes</span>
+            </div>
+
+            <ul>
+                <li>Questions are randomized each attempt</li>
+                <li>Instant feedback with explanations</li>
+                <li>Track your progress as you go</li>
+            </ul>
+
+            <button class="btn show" onclick="startQuiz()">Start Quiz</button>
+        </div>
+
+        <div class="quiz-container" id="quizContainer">
+            <div class="stats">
+                <span>Question <span id="currentNum">1</span> of <span id="totalNum">50</span></span>
+                <span>Score: <span class="score" id="score">0</span></span>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number" id="questionNumber">Question 1</div>
+                <div class="question-text" id="questionText"></div>
+
+                <div class="options" id="options"></div>
+
+                <div class="explanation" id="explanation">
+                    <h4>Explanation</h4>
+                    <p id="explanationText"></p>
+                </div>
+
+                <button class="btn" id="nextBtn" onclick="nextQuestion()">Next Question</button>
+            </div>
+        </div>
+
+        <div class="question-card results" id="results">
+            <h2>Quiz Complete!</h2>
+            <div class="final-score" id="finalScore">0%</div>
+            <div class="grade" id="grade">0 / 50 correct</div>
+            <div class="grade-message" id="gradeMessage"></div>
+            <button class="btn restart-btn show" onclick="restartQuiz()">Try Again</button>
+        </div>
+    </div>
+
+    <script>
+        const _k = "CCNA2024";
+        const _d = (s, i) => (atob(s).charCodeAt(0) ^ (i % 256) ^ _k.charCodeAt(i % _k.length)) - 48;
+
+        const _a = [
+            "eQ==","eQ==","eQ==","fg==","dA==","eQ==","fg==","dA==","eQ==","dA==",
+            "eQ==","fQ==","eQ==","dA==","fg==","fQ==","fg==","dA==","eQ==","fg==",
+            "dA==","eQ==","dA==","eQ==","eQ==","dA==","eQ==","eQ==","eQ==","eQ==",
+            "fg==","fg==","dA==","eQ==","dA==","eQ==","eQ==","eQ==","fg==","eQ==",
+            "dA==","eQ==","eQ==","eQ==","eQ==","dA==","eQ==","dA==","eQ==","eQ=="
+        ];
+
+        const questions = [
+            {
+                question: "Which command enters global configuration mode from privileged EXEC mode?",
+                options: ["enable", "configure terminal", "config mode", "setup"],
+                explanation: "'configure terminal' (or 'conf t') enters global config mode from privileged EXEC."
+            },
+            {
+                question: "What prompt indicates you are in privileged EXEC mode?",
+                options: ["Router>", "Router#", "Router(config)#", "Router(config-if)#"],
+                explanation: "The # symbol indicates privileged EXEC mode; > indicates user EXEC mode."
+            },
+            {
+                question: "Which command moves from user EXEC mode to privileged EXEC mode?",
+                options: ["login", "enable", "privilege", "escalate"],
+                explanation: "'enable' elevates from user EXEC (>) to privileged EXEC (#) mode."
+            },
+            {
+                question: "What command returns you to privileged EXEC mode from any config mode?",
+                options: ["exit", "quit", "end", "disable"],
+                explanation: "'end' (or Ctrl+Z) returns directly to privileged EXEC from any config mode."
+            },
+            {
+                question: "Which command enters interface configuration mode for GigabitEthernet0/1?",
+                options: ["interface gigabitethernet 0/1", "config interface g0/1", "enter g0/1", "select interface 0/1"],
+                explanation: "'interface gigabitethernet 0/1' (or 'int g0/1') enters interface config mode."
+            },
+            {
+                question: "Which command displays the running configuration?",
+                options: ["show config", "show running-config", "display config", "view running"],
+                explanation: "'show running-config' (or 'sh run') displays the active configuration in RAM."
+            },
+            {
+                question: "Which command shows the IOS version and hardware information?",
+                options: ["show system", "show hardware", "show version", "show info"],
+                explanation: "'show version' displays IOS version, uptime, hardware, and license info."
+            },
+            {
+                question: "What command displays all interfaces and their IP addresses?",
+                options: ["show ip interface brief", "show interfaces all", "show ip addresses", "display interfaces"],
+                explanation: "'show ip interface brief' shows a summary of interfaces, IPs, and status."
+            },
+            {
+                question: "Which command shows the routing table?",
+                options: ["show routes", "show ip route", "display routing", "show routing-table"],
+                explanation: "'show ip route' displays the IP routing table with all learned routes."
+            },
+            {
+                question: "What command displays the MAC address table on a switch?",
+                options: ["show mac-address-table", "show mac table", "show arp", "show addresses"],
+                explanation: "'show mac-address-table' displays the switch's MAC address to port mappings."
+            },
+            {
+                question: "Which command shows detailed information about a specific interface?",
+                options: ["show interface detail g0/1", "show interfaces g0/1", "display interface g0/1", "show g0/1 status"],
+                explanation: "'show interfaces <interface>' shows detailed statistics and configuration."
+            },
+            {
+                question: "What command displays the ARP cache?",
+                options: ["show arp", "show ip arp", "show arp-cache", "Both A and B"],
+                explanation: "Both 'show arp' and 'show ip arp' display the ARP cache."
+            },
+            {
+                question: "Which command sets the hostname of a device to 'CoreRouter'?",
+                options: ["set hostname CoreRouter", "hostname CoreRouter", "name CoreRouter", "device-name CoreRouter"],
+                explanation: "'hostname <name>' sets the device hostname in global config mode."
+            },
+            {
+                question: "What command assigns IP address 192.168.1.1/24 to an interface?",
+                options: ["ip address 192.168.1.1 255.255.255.0", "set ip 192.168.1.1/24", "ipaddress 192.168.1.1 /24", "address 192.168.1.1 mask 24"],
+                explanation: "'ip address <ip> <subnet-mask>' assigns an IP in interface config mode."
+            },
+            {
+                question: "Which command enables an interface that is administratively down?",
+                options: ["enable", "activate", "no shutdown", "start"],
+                explanation: "'no shutdown' (or 'no shut') enables an interface."
+            },
+            {
+                question: "What command saves the running configuration to NVRAM?",
+                options: ["save config", "write memory", "copy running startup", "Both B and C"],
+                explanation: "Both 'write memory' and 'copy running-config startup-config' save the config."
+            },
+            {
+                question: "Which command sets the enable secret password to 'cisco123'?",
+                options: ["password cisco123", "enable password cisco123", "enable secret cisco123", "secret enable cisco123"],
+                explanation: "'enable secret' sets an encrypted password for privileged EXEC access."
+            },
+            {
+                question: "What command configures a description on an interface?",
+                options: ["description Link to WAN", "name Link to WAN", "label Link to WAN", "comment Link to WAN"],
+                explanation: "'description <text>' adds a description to an interface."
+            },
+            {
+                question: "Which command disables DNS lookup on a router?",
+                options: ["no dns lookup", "no ip domain-lookup", "dns disable", "ip dns off"],
+                explanation: "'no ip domain-lookup' prevents the router from trying to resolve typos as hostnames."
+            },
+            {
+                question: "What command encrypts all plain-text passwords in the config?",
+                options: ["encrypt passwords", "password encryption", "service password-encryption", "enable encryption"],
+                explanation: "'service password-encryption' encrypts passwords using type 7 encryption."
+            },
+            {
+                question: "Which command enters console line configuration mode?",
+                options: ["line console 0", "console line 0", "config console", "line con"],
+                explanation: "'line console 0' enters console line configuration mode."
+            },
+            {
+                question: "What command configures VTY lines 0-4 for remote access?",
+                options: ["vty 0 4", "line vty 0 4", "remote-access 0-4", "telnet lines 0 4"],
+                explanation: "'line vty 0 4' configures virtual terminal lines for SSH/Telnet."
+            },
+            {
+                question: "Which command sets a console password and enables login?",
+                options: ["password cisco then login", "set password cisco", "console password cisco", "enable login cisco"],
+                explanation: "Set 'password <pwd>' then 'login' to require password on console."
+            },
+            {
+                question: "What command prevents console messages from interrupting your typing?",
+                options: ["no messages", "logging synchronous", "quiet mode", "disable logging"],
+                explanation: "'logging synchronous' re-displays your command after syslog messages."
+            },
+            {
+                question: "Which command sets the console timeout to 10 minutes?",
+                options: ["timeout 10", "exec-timeout 10 0", "session-timeout 10", "idle-timeout 10"],
+                explanation: "'exec-timeout <minutes> <seconds>' sets the idle timeout period."
+            },
+            {
+                question: "Which command creates VLAN 100 on a switch?",
+                options: ["vlan 100", "create vlan 100", "add vlan 100", "new vlan 100"],
+                explanation: "'vlan 100' in global config mode creates the VLAN and enters VLAN config."
+            },
+            {
+                question: "What command assigns a name to a VLAN?",
+                options: ["vlan name Sales", "name Sales", "description Sales", "label Sales"],
+                explanation: "'name <name>' assigns a name to a VLAN in VLAN configuration mode."
+            },
+            {
+                question: "Which command assigns an interface to VLAN 10 as an access port?",
+                options: ["vlan 10", "switchport access vlan 10", "access vlan 10", "port vlan 10"],
+                explanation: "'switchport access vlan 10' assigns the port to VLAN 10."
+            },
+            {
+                question: "What command configures a port as an access port?",
+                options: ["port mode access", "switchport mode access", "access mode enable", "mode access"],
+                explanation: "'switchport mode access' sets the port to access mode (single VLAN)."
+            },
+            {
+                question: "Which command displays all VLANs and their port assignments?",
+                options: ["show vlans", "show vlan brief", "display vlan", "show vlan all"],
+                explanation: "'show vlan brief' displays a summary of VLANs and assigned ports."
+            },
+            {
+                question: "What command configures an interface as a trunk port?",
+                options: ["switchport trunk", "trunk enable", "switchport mode trunk", "mode trunk"],
+                explanation: "'switchport mode trunk' configures the port to carry multiple VLANs."
+            },
+            {
+                question: "Which command sets the native VLAN on a trunk to VLAN 99?",
+                options: ["native vlan 99", "switchport native vlan 99", "switchport trunk native vlan 99", "trunk native 99"],
+                explanation: "'switchport trunk native vlan 99' sets VLAN 99 as the native VLAN."
+            },
+            {
+                question: "What command restricts a trunk to only allow VLANs 10, 20, and 30?",
+                options: ["switchport trunk allowed vlan 10,20,30", "trunk vlan 10 20 30", "vlan allow 10,20,30", "permit vlan 10,20,30"],
+                explanation: "'switchport trunk allowed vlan 10,20,30' restricts the trunk to specific VLANs."
+            },
+            {
+                question: "Which command configures a Layer 3 switch interface with an IP address?",
+                options: ["ip address after switchport", "no switchport then ip address", "layer3 mode then ip address", "routed-port ip address"],
+                explanation: "'no switchport' converts a switch port to a routed port, then assign IP."
+            },
+            {
+                question: "What command creates a switch virtual interface for VLAN 10?",
+                options: ["interface vlan 10", "vlan interface 10", "svi vlan 10", "create svi 10"],
+                explanation: "'interface vlan 10' creates an SVI for inter-VLAN routing."
+            },
+            {
+                question: "Which command displays spanning tree information?",
+                options: ["show stp", "show spanning-tree", "show tree", "display spanning-tree"],
+                explanation: "'show spanning-tree' displays STP status, root bridge, and port states."
+            },
+            {
+                question: "What command sets a switch as the root bridge for VLAN 1?",
+                options: ["spanning-tree root primary", "spanning-tree vlan 1 root primary", "stp vlan 1 priority 0", "root-bridge vlan 1"],
+                explanation: "'spanning-tree vlan 1 root primary' sets low priority to become root."
+            },
+            {
+                question: "Which command enables PortFast on an access port?",
+                options: ["portfast enable", "spanning-tree portfast", "stp portfast", "fast-port"],
+                explanation: "'spanning-tree portfast' skips STP listening/learning states."
+            },
+            {
+                question: "What command enables BPDU Guard on a PortFast-enabled port?",
+                options: ["bpdu-guard enable", "spanning-tree guard bpdu", "spanning-tree bpduguard enable", "stp bpdu guard"],
+                explanation: "'spanning-tree bpduguard enable' shuts down port if BPDU is received."
+            },
+            {
+                question: "Which command changes STP mode to Rapid PVST+?",
+                options: ["spanning-tree mode rapid", "spanning-tree mode rapid-pvst", "stp mode rstp", "rapid-pvst enable"],
+                explanation: "'spanning-tree mode rapid-pvst' enables Rapid PVST+ on the switch."
+            },
+            {
+                question: "What command manually sets the STP priority to 4096 for VLAN 10?",
+                options: ["spanning-tree vlan 10 priority 4096", "stp priority 4096 vlan 10", "spanning-tree priority 4096", "vlan 10 stp-priority 4096"],
+                explanation: "'spanning-tree vlan 10 priority 4096' sets specific priority (must be multiple of 4096)."
+            },
+            {
+                question: "Which command enables OSPF process 1 on a router?",
+                options: ["ospf 1", "router ospf 1", "enable ospf 1", "protocol ospf 1"],
+                explanation: "'router ospf 1' enters OSPF router configuration mode with process ID 1."
+            },
+            {
+                question: "What command advertises network 10.0.0.0/24 in OSPF area 0?",
+                options: ["network 10.0.0.0 255.255.255.0 area 0", "network 10.0.0.0 0.0.0.255 area 0", "advertise 10.0.0.0/24 area 0", "ospf network 10.0.0.0 area 0"],
+                explanation: "OSPF uses wildcard masks. '0.0.0.255' is the wildcard for /24."
+            },
+            {
+                question: "Which command displays OSPF neighbor relationships?",
+                options: ["show ospf neighbors", "show ip ospf neighbor", "show ospf adjacency", "display ospf peers"],
+                explanation: "'show ip ospf neighbor' displays OSPF adjacencies and their states."
+            },
+            {
+                question: "What command sets the OSPF router ID to 1.1.1.1?",
+                options: ["ospf router-id 1.1.1.1", "router-id 1.1.1.1", "id 1.1.1.1", "set router-id 1.1.1.1"],
+                explanation: "'router-id 1.1.1.1' manually sets the OSPF router ID."
+            },
+            {
+                question: "Which command shows the OSPF link-state database?",
+                options: ["show ip ospf database", "show ospf lsdb", "show ip ospf lsa", "display ospf database"],
+                explanation: "'show ip ospf database' displays the LSDB with all LSAs."
+            },
+            {
+                question: "What command changes the OSPF cost on an interface to 100?",
+                options: ["ospf cost 100", "ip ospf cost 100", "cost 100", "bandwidth cost 100"],
+                explanation: "'ip ospf cost 100' manually sets the OSPF cost in interface config."
+            },
+            {
+                question: "Which command configures OSPF authentication using MD5 on an interface?",
+                options: ["ip ospf authentication message-digest", "ospf auth md5", "authentication ospf md5", "ip ospf md5 enable"],
+                explanation: "'ip ospf authentication message-digest' enables MD5 authentication."
+            },
+            {
+                question: "What command makes an interface passive in OSPF (no hellos sent)?",
+                options: ["passive interface g0/1", "passive-interface g0/1", "interface g0/1 passive", "ospf passive g0/1"],
+                explanation: "'passive-interface <int>' stops OSPF from sending hellos on that interface."
+            },
+            {
+                question: "Which command enables EIGRP with AS number 100?",
+                options: ["eigrp 100", "router eigrp 100", "enable eigrp 100", "protocol eigrp 100"],
+                explanation: "'router eigrp 100' enters EIGRP configuration with AS 100."
+            }
+        ];
+
+        function getCorrectAnswer(originalIndex) {
+            return _d(_a[originalIndex], originalIndex);
+        }
+
+        let currentQuestion = 0;
+        let score = 0;
+        let shuffledQuestions = [];
+        let answered = false;
+
+        function shuffleArray(array) {
+            const indices = array.map((_, i) => i);
+            for (let i = indices.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [indices[i], indices[j]] = [indices[j], indices[i]];
+            }
+            return indices.map(i => ({ ...array[i], _origIdx: i }));
+        }
+
+        function startQuiz() {
+            shuffledQuestions = shuffleArray(questions);
+            currentQuestion = 0;
+            score = 0;
+            answered = false;
+
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('results').classList.remove('show');
+            document.getElementById('quizContainer').classList.add('show');
+            document.getElementById('totalNum').textContent = shuffledQuestions.length;
+
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const q = shuffledQuestions[currentQuestion];
+            answered = false;
+
+            document.getElementById('currentNum').textContent = currentQuestion + 1;
+            document.getElementById('questionNumber').textContent = 'Question ' + (currentQuestion + 1);
+            document.getElementById('questionText').textContent = q.question;
+            document.getElementById('score').textContent = score;
+
+            const progress = ((currentQuestion) / shuffledQuestions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+
+            const letters = ['A', 'B', 'C', 'D'];
+            q.options.forEach((option, index) => {
+                const optionEl = document.createElement('div');
+                optionEl.className = 'option';
+
+                const letterSpan = document.createElement('span');
+                letterSpan.className = 'option-letter';
+                letterSpan.textContent = letters[index];
+
+                optionEl.appendChild(letterSpan);
+                optionEl.appendChild(document.createTextNode(option));
+                optionEl.onclick = () => selectAnswer(index);
+                optionsContainer.appendChild(optionEl);
+            });
+
+            document.getElementById('explanation').classList.remove('show');
+            document.getElementById('nextBtn').classList.remove('show');
+        }
+
+        function selectAnswer(selected) {
+            if (answered) return;
+            answered = true;
+
+            const q = shuffledQuestions[currentQuestion];
+            const correctAnswer = getCorrectAnswer(q._origIdx);
+            const options = document.querySelectorAll('.option');
+
+            options.forEach((opt, index) => {
+                opt.classList.add('disabled');
+                if (index === correctAnswer) {
+                    opt.classList.add('correct');
+                } else if (index === selected) {
+                    opt.classList.add('incorrect');
+                }
+            });
+
+            if (selected === correctAnswer) {
+                score++;
+                document.getElementById('score').textContent = score;
+            }
+
+            document.getElementById('explanationText').textContent = q.explanation;
+            document.getElementById('explanation').classList.add('show');
+
+            const nextBtn = document.getElementById('nextBtn');
+            if (currentQuestion === shuffledQuestions.length - 1) {
+                nextBtn.textContent = 'See Results';
+            } else {
+                nextBtn.textContent = 'Next Question';
+            }
+            nextBtn.classList.add('show');
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+
+            if (currentQuestion >= shuffledQuestions.length) {
+                showResults();
+            } else {
+                showQuestion();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('quizContainer').classList.remove('show');
+            document.getElementById('results').classList.add('show');
+
+            const percentage = Math.round((score / shuffledQuestions.length) * 100);
+            document.getElementById('finalScore').textContent = percentage + '%';
+            document.getElementById('grade').textContent = score + ' / ' + shuffledQuestions.length + ' correct';
+
+            let message = '';
+            if (percentage >= 90) {
+                message = "Excellent! You're well prepared for the CCNA!";
+            } else if (percentage >= 80) {
+                message = "Great job! A bit more practice and you'll ace it!";
+            } else if (percentage >= 70) {
+                message = "Good effort! Review the topics you missed.";
+            } else if (percentage >= 60) {
+                message = "Keep studying! Focus on the areas where you struggled.";
+            } else {
+                message = "More practice needed. Review the Cisco IOS fundamentals.";
+            }
+            document.getElementById('gradeMessage').textContent = message;
+        }
+
+        function restartQuiz() {
+            startQuiz();
+        }
+    </script>
+</body>
+</html>
