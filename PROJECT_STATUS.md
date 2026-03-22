@@ -1,7 +1,7 @@
 # CCNA Arcade - Project Status
 
-**Last Updated:** March 17, 2026
-**Version:** 3.0
+**Last Updated:** March 22, 2026
+**Version:** 3.1
 **Server:** `python -m http.server 5500` in the network-tetris folder
 
 ---
@@ -87,7 +87,24 @@ OSI model quiz training:
 - Streak tracking
 - Achievement integration
 
-### 5. Daily Challenge
+### 5. IOS Commands Module (Enhanced in v3.1)
+Two training modes for Cisco IOS commands:
+
+**Multiple Choice Quiz:**
+- 50 randomized questions
+- Instant feedback with explanations
+- Topics: CLI Navigation, Show Commands, VLANs, Trunking, STP, OSPF, EIGRP, Security
+
+**CLI Terminal Simulator (NEW in v3.1):**
+- Simulated Cisco IOS terminal interface
+- Type actual commands with IOS-style prompts
+- Realistic mode switching (User/Privileged/Config modes)
+- Simulated IOS output responses
+- Tab for hints, arrow keys for history
+- 25+ command challenges across all topics
+- Streak-based scoring
+
+### 6. Daily Challenge
 Timed daily subnetting challenges:
 - 15 questions with 2-minute time limit
 - Seeded random (same challenge for all users each day)
@@ -199,7 +216,36 @@ Theme variables defined in `:root`:
 
 ---
 
-## Recent Updates (v3.0)
+## Recent Updates (v3.1)
+
+### New Features
+1. **CLI Terminal Simulator** - Type actual IOS commands
+   - Simulated terminal with realistic IOS prompts
+   - Mode switching: User > Privileged > Config > Interface
+   - 25+ command challenges covering navigation, show commands, VLANs, OSPF, STP
+   - Tab for hints, command history with arrow keys
+   - Simulated IOS output responses
+   - Streak-based scoring with difficulty multipliers
+
+2. **IOS Commands Mode Selection** - Choice between quiz and terminal
+   - Multiple choice quiz mode (existing)
+   - New CLI Terminal simulator mode
+   - Visual mode selection cards
+
+3. **Performance Improvements**
+   - Self-hosted Press Start 2P font (reduced latency)
+   - Deferred script loading for non-critical modules
+   - Loading spinner during initial load
+
+4. **Accessibility Improvements**
+   - ARIA live regions for screen reader announcements
+   - Enhanced focus indicators for keyboard navigation
+   - Skip-to-content link
+   - Improved color contrast ratios
+
+---
+
+## Previous Updates (v3.0)
 
 ### New Features
 1. **Packet Journey Mode** - Interactive packet visualization
@@ -246,13 +292,25 @@ Theme variables defined in `:root`:
 
 ---
 
-## Future Considerations
+## Future Considerations / Backlog
+
+### High Priority
+- **Octet Translation Game** - Replace Binary Munchers with IP address building game (convert binary octets to build IPs)
+- **Layer Builder Game** - BurgerTime-style OSI layer game (design doc: GAME_DESIGN_LAYER_BUILDER.md)
+- **Binary Frog Mascot** - Character made of 1s and 0s for binary-themed content
+- **Mobile Layout Optimization** - Improve small screen experience
+
+### Medium Priority
+- Enterprise engagement features (team leaderboards, usage analytics)
 - Additional Packet Journey scenarios (ICMP, NAT, DHCP process)
-- Drag-and-drop OSI layer ordering game
 - More advanced subnetting challenges (VLSM design)
-- Multiplayer challenge mode
 - Sound effects for Packet Journey and OSI Trainer
 - Additional themes
+
+### Future Exploration
+- Multiplayer challenge mode
+- Progress certificates for enterprise training completion
+- Integration with IT training platforms
 
 ---
 

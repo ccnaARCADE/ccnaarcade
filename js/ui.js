@@ -36,7 +36,8 @@ const UI = {
             packetJourneySelect: document.getElementById('packet-journey-select'),
             osiTrainerScreen: document.getElementById('osi-trainer-screen'),
             binaryMunchersScreen: document.getElementById('binary-munchers-screen'),
-            iosQuizScreen: document.getElementById('ios-quiz-screen')
+            iosQuizScreen: document.getElementById('ios-quiz-screen'),
+            cliTerminalScreen: document.getElementById('cli-terminal-screen')
         };
 
         // Pre-cache screen values array for faster iteration

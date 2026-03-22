@@ -233,6 +233,10 @@ const Game = {
         this.addClickListener('btn-ios-quiz-quit', () => this.quitIOSQuiz());
         this.addClickListener('btn-ios-quit', () => this.quitIOSQuiz());
 
+        // CLI Terminal
+        this.addClickListener('btn-start-cli-terminal', () => this.startCLITerminal());
+        this.addClickListener('btn-cli-quit', () => this.quitCLITerminal());
+
         // Leaderboard
         this.addClickListener('btn-leaderboard', () => this.showLeaderboard());
         this.addClickListener('btn-back-leaderboard', () => UI.showScreen('mainMenu'));
@@ -2178,6 +2182,46 @@ const Game = {
         }
 
         UI.showScreen('launchPanel');
+    },
+
+    // ========================================
+    // CLI TERMINAL METHODS
+    // ========================================
+
+    /**
+     * Start CLI Terminal simulator
+     */
+    startCLITerminal() {
+        if (typeof Sounds !== 'undefined') {
+            Sounds.play('click');
+        }
+
+        if (typeof CLITerminal !== 'undefined') {
+            CLITerminal.init();
+            UI.showScreen('cliTerminalScreen');
+            // Small delay to ensure screen is rendered before starting
+            setTimeout(() => {
+                CLITerminal.start();
+            }, 100);
+        } else {
+            console.error('CLITerminal module not loaded');
+            UI.showMessage('CLI Terminal not available', 2000, 'error');
+        }
+    },
+
+    /**
+     * Quit CLI Terminal and return to IOS Quiz screen
+     */
+    quitCLITerminal() {
+        if (typeof Sounds !== 'undefined') {
+            Sounds.play('click');
+        }
+
+        if (typeof CLITerminal !== 'undefined') {
+            CLITerminal.stop();
+        }
+
+        UI.showScreen('iosQuizScreen');
     }
 };
 

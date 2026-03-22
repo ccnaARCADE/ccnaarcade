@@ -1013,11 +1013,38 @@
                 <div class="ios-subtitle">Test your command-line knowledge</div>
             </div>
 
-            <!-- Start Area -->
+            <!-- Start Area with Mode Selection -->
             <div id="ios-start-area" class="ios-start-area">
                 <div class="ios-intro">
-                    <h3>Ready to Test Your Knowledge?</h3>
-                    <p>50 questions covering essential Cisco IOS commands</p>
+                    <h3>Choose Your Training Mode</h3>
+
+                    <div class="ios-mode-cards">
+                        <!-- Quiz Mode Card -->
+                        <div class="ios-mode-card" id="ios-mode-quiz">
+                            <div class="ios-mode-icon">?</div>
+                            <h4>MULTIPLE CHOICE</h4>
+                            <p>50 questions - select the correct command</p>
+                            <ul class="ios-mode-features">
+                                <li>Randomized questions</li>
+                                <li>Instant feedback</li>
+                                <li>Explanations for each answer</li>
+                            </ul>
+                            <button class="menu-btn" id="btn-start-ios-quiz">START QUIZ</button>
+                        </div>
+
+                        <!-- Terminal Mode Card -->
+                        <div class="ios-mode-card terminal-mode" id="ios-mode-terminal">
+                            <div class="ios-mode-icon">&gt;_</div>
+                            <h4>CLI SIMULATOR</h4>
+                            <p>Type actual IOS commands in a terminal</p>
+                            <ul class="ios-mode-features">
+                                <li>Realistic IOS prompts</li>
+                                <li>Simulated command output</li>
+                                <li>Tab for hints</li>
+                            </ul>
+                            <button class="menu-btn terminal" id="btn-start-cli-terminal">START TERMINAL</button>
+                        </div>
+                    </div>
 
                     <div class="ios-topic-tags">
                         <span class="ios-tag">CLI Navigation</span>
@@ -1026,17 +1053,9 @@
                         <span class="ios-tag">Trunking</span>
                         <span class="ios-tag">STP</span>
                         <span class="ios-tag">OSPF</span>
-                        <span class="ios-tag">EIGRP</span>
+                        <span class="ios-tag">Security</span>
                         <span class="ios-tag">Configuration</span>
                     </div>
-
-                    <div class="ios-features">
-                        <div class="ios-feature">Questions randomized each attempt</div>
-                        <div class="ios-feature">Instant feedback with explanations</div>
-                        <div class="ios-feature">Track your progress as you go</div>
-                    </div>
-
-                    <button class="menu-btn" id="btn-start-ios-quiz">START QUIZ</button>
                 </div>
             </div>
 
@@ -1082,6 +1101,62 @@
 
             <div class="ios-footer">
                 <button id="btn-ios-quit" class="game-btn">QUIT</button>
+            </div>
+        </div>
+
+        <!-- CLI Terminal Screen -->
+        <div id="cli-terminal-screen" class="screen">
+            <div class="cli-header">
+                <div class="stat">
+                    <span class="stat-label">SCORE</span>
+                    <span id="cli-score" class="stat-value">0</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">STREAK</span>
+                    <span id="cli-streak" class="stat-value">0x</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">PROGRESS</span>
+                    <span id="cli-progress" class="stat-value">1/15</span>
+                </div>
+            </div>
+
+            <!-- Challenge Display -->
+            <div class="cli-challenge">
+                <span class="cli-challenge-label">TASK:</span>
+                <span id="cli-challenge-text" class="cli-challenge-text">Enter privileged EXEC mode</span>
+            </div>
+
+            <!-- Terminal Window -->
+            <div class="cli-terminal-window">
+                <div class="cli-terminal-titlebar">
+                    <span class="cli-terminal-dot red"></span>
+                    <span class="cli-terminal-dot yellow"></span>
+                    <span class="cli-terminal-dot green"></span>
+                    <span class="cli-terminal-title">Cisco IOS Simulator</span>
+                </div>
+                <div id="cli-output" class="cli-output">
+                    <!-- Terminal output rendered here -->
+                </div>
+                <div class="cli-input-line">
+                    <span id="cli-prompt-label" class="cli-prompt">Router#</span>
+                    <input type="text" id="cli-input" class="cli-input" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Type command here...">
+                </div>
+            </div>
+
+            <!-- Hint Area -->
+            <div class="cli-hint-area">
+                <button id="cli-hint-btn" class="cli-hint-btn">TAB = HINT</button>
+                <span id="cli-hint-text" class="cli-hint-text hidden"></span>
+            </div>
+
+            <div class="cli-footer">
+                <button id="btn-cli-quit" class="game-btn">QUIT</button>
+                <div class="cli-controls">
+                    <span>ENTER = Submit</span>
+                    <span>TAB = Hint</span>
+                    <span>UP/DOWN = History</span>
+                </div>
             </div>
         </div>
 
@@ -1174,6 +1249,7 @@
     <script src="js/ositrainer.js" defer></script>
     <script src="js/binarymunchers.js" defer></script>
     <script src="js/iosquiz.js" defer></script>
+    <script src="js/cliterminal.js" defer></script>
     <script src="js/leaderboard.js"></script>
     <script src="js/themes.js"></script>
     <script src="js/savedata.js"></script>
