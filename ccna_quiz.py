@@ -98,12 +98,12 @@ QUESTIONS = [
         "answer": "B",
         "explanation": "'show interfaces <interface>' shows detailed statistics and configuration."
     },
-    # Q11: Answer D (index 3)
+    # Q11: Answer B (index 1)
     {
         "question": "What command displays the ARP cache?",
-        "options": ["A) show arp", "B) show ip arp", "C) show arp-cache", "D) Both A and B"],
-        "answer": "D",
-        "explanation": "Both 'show arp' and 'show ip arp' display the ARP cache."
+        "options": ["A) show arp", "B) show ip arp", "C) show arp-cache", "D) show arp table"],
+        "answer": "B",
+        "explanation": "'show ip arp' (or 'show arp') displays the ARP cache in Cisco IOS."
     },
     # === BASIC COMMANDS - Configuration ===
     # Q12: Answer B (index 1)
@@ -127,12 +127,12 @@ QUESTIONS = [
         "answer": "C",
         "explanation": "'no shutdown' (or 'no shut') enables an interface."
     },
-    # Q15: Answer D (index 3)
+    # Q15: Answer C (index 2)
     {
         "question": "What command saves the running configuration to NVRAM?",
-        "options": ["A) save config", "B) write memory", "C) copy running startup", "D) Both B and C"],
-        "answer": "D",
-        "explanation": "Both 'write memory' and 'copy running-config startup-config' save the config."
+        "options": ["A) save config", "B) write memory", "C) copy running-config startup-config", "D) write config memory"],
+        "answer": "C",
+        "explanation": "'copy running-config startup-config' (or 'wr') saves the config to NVRAM."
     },
     # Q16: Answer C (index 2)
     {
@@ -177,12 +177,12 @@ QUESTIONS = [
         "answer": "B",
         "explanation": "'line vty 0 4' configures virtual terminal lines for SSH/Telnet."
     },
-    # Q22: Answer A (index 0)
+    # Q22: Answer C (index 2)
     {
         "question": "Which command sets a console password and enables login?",
-        "options": ["A) password cisco then login", "B) set password cisco", "C) console password cisco", "D) enable login cisco"],
-        "answer": "A",
-        "explanation": "Set 'password <pwd>' then 'login' to require password on console."
+        "options": ["A) password cisco", "B) login", "C) password cisco, login", "D) console password cisco"],
+        "answer": "C",
+        "explanation": "Use 'password <pwd>' followed by 'login' to require password on console."
     },
     # Q23: Answer B (index 1)
     {
@@ -258,9 +258,9 @@ QUESTIONS = [
     # Q33: Answer B (index 1)
     {
         "question": "Which command configures a Layer 3 switch interface with an IP address?",
-        "options": ["A) ip address after switchport", "B) no switchport then ip address", "C) layer3 mode then ip address", "D) routed-port ip address"],
+        "options": ["A) ip address 192.168.1.1 255.255.255.0", "B) no switchport", "C) layer3 mode enable", "D) switchport no shutdown"],
         "answer": "B",
-        "explanation": "'no switchport' converts a switch port to a routed port, then assign IP."
+        "explanation": "'no switchport' converts a switch port to a routed port for layer 3 operation."
     },
     # Q34: Answer A (index 0)
     {

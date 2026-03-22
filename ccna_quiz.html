@@ -370,8 +370,8 @@
 
         const _a = [
             "eQ==","eQ==","eQ==","fg==","dA==","eQ==","fg==","dA==","eQ==","dA==",
-            "eQ==","fQ==","eQ==","dA==","fg==","fQ==","fg==","dA==","eQ==","fg==",
-            "dA==","eQ==","dA==","eQ==","eQ==","dA==","eQ==","eQ==","eQ==","eQ==",
+            "eQ==","ew==","eQ==","dA==","fg==","CQ==","fg==","dA==","eQ==","fg==",
+            "dA==","eQ==","Fg==","eQ==","eQ==","dA==","eQ==","eQ==","eQ==","eQ==",
             "fg==","fg==","dA==","eQ==","dA==","eQ==","eQ==","eQ==","fg==","eQ==",
             "dA==","eQ==","eQ==","eQ==","eQ==","dA==","eQ==","dA==","eQ==","eQ=="
         ];
@@ -434,8 +434,8 @@
             },
             {
                 question: "What command displays the ARP cache?",
-                options: ["show arp", "show ip arp", "show arp-cache", "Both A and B"],
-                explanation: "Both 'show arp' and 'show ip arp' display the ARP cache."
+                options: ["show arp", "show ip arp", "show arp-cache", "show arp table"],
+                explanation: "'show ip arp' (or 'show arp') displays the ARP cache in Cisco IOS."
             },
             {
                 question: "Which command sets the hostname of a device to 'CoreRouter'?",
@@ -454,8 +454,8 @@
             },
             {
                 question: "What command saves the running configuration to NVRAM?",
-                options: ["save config", "write memory", "copy running startup", "Both B and C"],
-                explanation: "Both 'write memory' and 'copy running-config startup-config' save the config."
+                options: ["save config", "write memory", "copy running-config startup-config", "write config memory"],
+                explanation: "'copy running-config startup-config' (or 'wr') saves the config to NVRAM."
             },
             {
                 question: "Which command sets the enable secret password to 'cisco123'?",
@@ -489,8 +489,8 @@
             },
             {
                 question: "Which command sets a console password and enables login?",
-                options: ["password cisco then login", "set password cisco", "console password cisco", "enable login cisco"],
-                explanation: "Set 'password <pwd>' then 'login' to require password on console."
+                options: ["password cisco", "login", "password cisco, login", "console password cisco"],
+                explanation: "Use 'password <pwd>' followed by 'login' to require password on console."
             },
             {
                 question: "What command prevents console messages from interrupting your typing?",
@@ -544,8 +544,8 @@
             },
             {
                 question: "Which command configures a Layer 3 switch interface with an IP address?",
-                options: ["ip address after switchport", "no switchport then ip address", "layer3 mode then ip address", "routed-port ip address"],
-                explanation: "'no switchport' converts a switch port to a routed port, then assign IP."
+                options: ["ip address 192.168.1.1 255.255.255.0", "no switchport", "layer3 mode enable", "switchport no shutdown"],
+                explanation: "'no switchport' converts a switch port to a routed port for layer 3 operation."
             },
             {
                 question: "What command creates a switch virtual interface for VLAN 10?",
