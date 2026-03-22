@@ -153,6 +153,7 @@ const Game = {
         this.addClickListener('btn-launch-packet', () => this.showPacketJourneySelect());
         this.addClickListener('btn-launch-osi', () => this.startOSITrainer());
         this.addClickListener('btn-launch-binary', () => this.startBinaryMunchers());
+        this.addClickListener('btn-launch-ios', () => this.startIOSQuiz());
         this.addClickListener('btn-lp-settings', () => this.showSettingsFromLaunch());
         this.addClickListener('btn-lp-stats', () => this.showStatisticsFromLaunch());
         this.addClickListener('btn-lp-achievements', () => this.showAchievementsFromLaunch());
@@ -163,6 +164,7 @@ const Game = {
         this.addClickListener('card-packet', () => this.showPacketJourneySelect());
         this.addClickListener('card-osi', () => this.startOSITrainer());
         this.addClickListener('card-binary', () => this.startBinaryMunchers());
+        this.addClickListener('card-ios-quiz', () => this.startIOSQuiz());
 
         // ========================================
         // SUBNET HUB BUTTONS (formerly main-menu)
@@ -224,6 +226,12 @@ const Game = {
 
         // Binary Munchers
         this.addClickListener('btn-bm-quit', () => this.quitBinaryMunchers());
+
+        // IOS Quiz
+        this.addClickListener('btn-start-ios-quiz', () => this.startIOSQuizGame());
+        this.addClickListener('btn-restart-ios-quiz', () => IOSQuiz.restart());
+        this.addClickListener('btn-ios-quiz-quit', () => this.quitIOSQuiz());
+        this.addClickListener('btn-ios-quit', () => this.quitIOSQuiz());
 
         // Leaderboard
         this.addClickListener('btn-leaderboard', () => this.showLeaderboard());
@@ -2126,6 +2134,50 @@ const Game = {
         if (nextLevelBtn) nextLevelBtn.classList.add('hidden');
 
         UI.showOverlay('gameOver');
+    },
+
+    // ========================================
+    // IOS QUIZ METHODS
+    // ========================================
+
+    /**
+     * Start IOS Quiz (show the start screen)
+     */
+    startIOSQuiz() {
+        if (typeof Sounds !== 'undefined') {
+            Sounds.play('click');
+        }
+
+        if (typeof IOSQuiz !== 'undefined') {
+            IOSQuiz.init();
+            UI.showScreen('iosQuizScreen');
+        } else {
+            console.error('IOSQuiz module not loaded');
+        }
+    },
+
+    /**
+     * Actually start the quiz game
+     */
+    startIOSQuizGame() {
+        if (typeof IOSQuiz !== 'undefined') {
+            IOSQuiz.start();
+        }
+    },
+
+    /**
+     * Quit IOS Quiz and return to launch panel
+     */
+    quitIOSQuiz() {
+        if (typeof Sounds !== 'undefined') {
+            Sounds.play('click');
+        }
+
+        if (typeof IOSQuiz !== 'undefined') {
+            IOSQuiz.stop();
+        }
+
+        UI.showScreen('launchPanel');
     }
 };
 

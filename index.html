@@ -144,6 +144,31 @@
                         </div>
                         <button class="card-btn" id="btn-launch-binary">LAUNCH</button>
                     </div>
+
+                    <!-- IOS Commands Quiz Card -->
+                    <div class="module-card ios-card" id="card-ios-quiz">
+                        <div class="card-icon">
+                            <div class="icon-ios">
+                                <span class="ios-prompt">></span>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <h2 class="card-title">IOS COMMANDS</h2>
+                            <p class="card-desc">Cisco CLI configuration quiz</p>
+                            <div class="card-modes">
+                                <span class="mode-tag">Show</span>
+                                <span class="mode-tag">Config</span>
+                                <span class="mode-tag">VLAN</span>
+                            </div>
+                        </div>
+                        <div class="card-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="ios-progress" style="width: 0%"></div>
+                            </div>
+                            <span class="progress-label">Best: 0%</span>
+                        </div>
+                        <button class="card-btn" id="btn-launch-ios">LAUNCH</button>
+                    </div>
                 </div>
             </main>
 
@@ -923,6 +948,85 @@
             </div>
         </div>
 
+        <!-- IOS Quiz Screen -->
+        <div id="ios-quiz-screen" class="screen">
+            <div class="ios-header">
+                <h2>CISCO IOS COMMANDS</h2>
+                <div class="ios-subtitle">Test your command-line knowledge</div>
+            </div>
+
+            <!-- Start Area -->
+            <div id="ios-start-area" class="ios-start-area">
+                <div class="ios-intro">
+                    <h3>Ready to Test Your Knowledge?</h3>
+                    <p>50 questions covering essential Cisco IOS commands</p>
+
+                    <div class="ios-topic-tags">
+                        <span class="ios-tag">CLI Navigation</span>
+                        <span class="ios-tag">Show Commands</span>
+                        <span class="ios-tag">VLANs</span>
+                        <span class="ios-tag">Trunking</span>
+                        <span class="ios-tag">STP</span>
+                        <span class="ios-tag">OSPF</span>
+                        <span class="ios-tag">EIGRP</span>
+                        <span class="ios-tag">Configuration</span>
+                    </div>
+
+                    <div class="ios-features">
+                        <div class="ios-feature">Questions randomized each attempt</div>
+                        <div class="ios-feature">Instant feedback with explanations</div>
+                        <div class="ios-feature">Track your progress as you go</div>
+                    </div>
+
+                    <button class="menu-btn" id="btn-start-ios-quiz">START QUIZ</button>
+                </div>
+            </div>
+
+            <!-- Quiz Area -->
+            <div id="ios-quiz-area" class="ios-quiz-area hidden">
+                <div class="ios-stats">
+                    <span>Question <span id="ios-current-num">1</span> of <span id="ios-total-num">50</span></span>
+                    <span>Score: <span class="score" id="ios-score">0</span></span>
+                </div>
+
+                <div class="ios-progress-bar">
+                    <div class="ios-progress-fill" id="ios-progress-fill"></div>
+                </div>
+
+                <div class="ios-question-card">
+                    <div class="ios-question-number" id="ios-question-number">Question 1</div>
+                    <div class="ios-question-text" id="ios-question-text">Question loading...</div>
+
+                    <div id="ios-options" class="ios-options">
+                        <!-- Options generated dynamically -->
+                    </div>
+
+                    <div id="ios-explanation" class="ios-explanation">
+                        <h4>Explanation</h4>
+                        <p id="ios-explanation-text"></p>
+                    </div>
+
+                    <button class="menu-btn" id="ios-next-btn">Next Question</button>
+                </div>
+            </div>
+
+            <!-- Results Area -->
+            <div id="ios-results-area" class="ios-results-area hidden">
+                <h2>Quiz Complete!</h2>
+                <div class="ios-final-score" id="ios-final-score">0%</div>
+                <div class="ios-grade" id="ios-grade">0 / 50 correct</div>
+                <div class="ios-grade-message" id="ios-grade-message"></div>
+                <div class="ios-results-actions">
+                    <button class="menu-btn" id="btn-restart-ios-quiz">Try Again</button>
+                    <button class="menu-btn secondary" id="btn-ios-quiz-quit">Back to Hub</button>
+                </div>
+            </div>
+
+            <div class="ios-footer">
+                <button id="btn-ios-quit" class="game-btn">QUIT</button>
+            </div>
+        </div>
+
         <!-- Help Screen -->
         <div id="help-screen" class="screen">
             <h2>HOW TO PLAY</h2>
@@ -1011,6 +1115,7 @@
     <script src="js/packetjourney.js"></script>
     <script src="js/ositrainer.js"></script>
     <script src="js/binarymunchers.js"></script>
+    <script src="js/iosquiz.js"></script>
     <script src="js/leaderboard.js"></script>
     <script src="js/themes.js"></script>
     <script src="js/savedata.js"></script>
