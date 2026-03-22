@@ -36,6 +36,7 @@ const UI = {
             packetJourneySelect: document.getElementById('packet-journey-select'),
             osiTrainerScreen: document.getElementById('osi-trainer-screen'),
             binaryMunchersScreen: document.getElementById('binary-munchers-screen'),
+            octetBuilderScreen: document.getElementById('octet-builder-screen'),
             iosQuizScreen: document.getElementById('ios-quiz-screen'),
             cliTerminalScreen: document.getElementById('cli-terminal-screen')
         };

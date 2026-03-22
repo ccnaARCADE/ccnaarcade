@@ -3,7 +3,7 @@
  * Enables offline play via caching
  */
 
-const CACHE_NAME = 'ccna-arcade-v9.0';
+const CACHE_NAME = 'ccna-arcade-v10.0';
 const ASSETS_TO_CACHE = [
     '/',
     '/index.html',
@@ -27,6 +27,7 @@ const ASSETS_TO_CACHE = [
     '/js/packetjourney.js',
     '/js/ositrainer.js',
     '/js/binarymunchers.js',
+    '/js/octetbuilder.js',
     '/js/leaderboard.js',
     '/js/themes.js',
     '/js/savedata.js',

@@ -4484,6 +4484,411 @@ body.keyboard-nav .daily-option::before {
 }
 
 /* ========================================
+   OCTET BUILDER MODULE
+   ======================================== */
+
+/* Octet Builder Card */
+.octet-card { --card-accent: #00ff9d; }
+
+.icon-octet {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #00ff9d;
+    text-shadow: 0 0 10px #00ff9d;
+}
+
+/* Octet Builder Screen */
+#octet-builder-screen {
+    flex-direction: column;
+    padding: 20px;
+}
+
+#octet-builder-screen.active {
+    display: flex;
+}
+
+.octet-header {
+    display: flex;
+    justify-content: space-around;
+    padding: 15px;
+    background: var(--color-surface);
+    border: 2px solid #00ff9d;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.octet-stat {
+    text-align: center;
+}
+
+.octet-stat .stat-label {
+    font-size: 8px;
+    color: var(--color-text-secondary);
+    display: block;
+}
+
+.octet-stat .stat-value {
+    font-size: 16px;
+    color: #00ff9d;
+}
+
+.octet-stat.timer .stat-value {
+    color: var(--color-primary);
+}
+
+.octet-stat.timer .stat-value.warning {
+    color: var(--color-danger);
+    animation: pulse 0.5s ease-in-out infinite;
+}
+
+/* Start Area */
+.octet-start-area {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.octet-intro {
+    text-align: center;
+    max-width: 500px;
+}
+
+.octet-intro h2 {
+    font-size: 24px;
+    color: #00ff9d;
+    margin-bottom: 10px;
+    text-shadow: 0 0 20px #00ff9d;
+}
+
+.octet-tagline {
+    font-size: 10px;
+    color: var(--color-text-secondary);
+    margin-bottom: 30px;
+}
+
+/* Binary Frog ASCII */
+.intro-frog {
+    margin: 30px 0;
+}
+
+.frog-ascii {
+    font-family: monospace;
+    font-size: 14px;
+    color: #00ff9d;
+    line-height: 1.2;
+    text-shadow: 0 0 10px #00ff9d;
+}
+
+.frog-speech {
+    font-size: 10px;
+    color: var(--color-primary);
+    margin-top: 10px;
+    font-style: italic;
+}
+
+.octet-instructions {
+    text-align: left;
+    margin: 30px 0;
+}
+
+.instruction {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 15px 0;
+    font-size: 10px;
+}
+
+.instruction-icon {
+    width: 28px;
+    height: 28px;
+    background: #00ff9d;
+    color: var(--color-background);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+/* Game Area */
+.octet-game-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.ip-preview-container {
+    background: var(--color-surface);
+    border: 2px solid var(--color-primary);
+    border-radius: 8px;
+    padding: 15px 30px;
+    text-align: center;
+}
+
+.ip-label {
+    font-size: 10px;
+    color: var(--color-text-secondary);
+    display: block;
+    margin-bottom: 8px;
+}
+
+.ip-preview {
+    font-size: 24px;
+    color: var(--color-primary);
+    font-family: monospace;
+    letter-spacing: 2px;
+}
+
+.ip-preview.complete {
+    color: #00ff9d;
+    animation: glow 0.5s ease-in-out 3;
+}
+
+@keyframes glow {
+    0%, 100% { text-shadow: 0 0 10px #00ff9d; }
+    50% { text-shadow: 0 0 30px #00ff9d, 0 0 50px #00ff9d; }
+}
+
+/* Frog Track */
+.frog-track {
+    position: relative;
+    width: 100%;
+    height: 60px;
+    margin-bottom: 10px;
+}
+
+.binary-frog {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: left 0.3s ease-out;
+    font-size: 24px;
+}
+
+.frog-body {
+    background: #00ff9d;
+    color: var(--color-background);
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(0, 255, 157, 0.4);
+}
+
+.binary-frog.hopping {
+    animation: hop 0.3s ease-out;
+}
+
+@keyframes hop {
+    0%, 100% { transform: translateY(-50%); }
+    50% { transform: translateY(-70%); }
+}
+
+.binary-frog.celebrating {
+    animation: celebrate 0.5s ease-in-out;
+}
+
+@keyframes celebrate {
+    0%, 100% { transform: translateY(-50%) rotate(0deg); }
+    25% { transform: translateY(-70%) rotate(-10deg); }
+    75% { transform: translateY(-70%) rotate(10deg); }
+}
+
+.binary-frog.sad {
+    animation: shake 0.3s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateY(-50%) translateX(0); }
+    25% { transform: translateY(-50%) translateX(-5px); }
+    75% { transform: translateY(-50%) translateX(5px); }
+}
+
+/* Octets Row */
+.octets-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.octet-dot {
+    font-size: 32px;
+    color: var(--color-text-secondary);
+}
+
+.octet-container {
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: 12px;
+    padding: 15px;
+    text-align: center;
+    transition: all 0.3s ease;
+    min-width: 140px;
+}
+
+.octet-container.active {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+}
+
+.octet-container.completed {
+    border-color: #00ff9d;
+    background: rgba(0, 255, 157, 0.1);
+}
+
+.octet-label {
+    font-size: 8px;
+    color: var(--color-text-secondary);
+    margin-bottom: 10px;
+}
+
+.octet-binary {
+    font-family: monospace;
+    font-size: 16px;
+    color: var(--color-primary);
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+}
+
+.bit {
+    padding: 2px 4px;
+}
+
+.bit-1 {
+    color: #00ff9d;
+}
+
+.bit-0 {
+    color: var(--color-text-secondary);
+}
+
+.bit-separator {
+    width: 8px;
+}
+
+.octet-input {
+    width: 80px;
+    padding: 12px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 18px;
+    text-align: center;
+    background: var(--color-background);
+    border: 2px solid var(--color-border);
+    border-radius: 8px;
+    color: var(--color-text-primary);
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.octet-input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+}
+
+.octet-input.correct {
+    border-color: #00ff9d;
+    background: rgba(0, 255, 157, 0.1);
+    color: #00ff9d;
+}
+
+.octet-input.incorrect {
+    border-color: var(--color-danger);
+    background: rgba(255, 68, 68, 0.1);
+    color: var(--color-danger);
+}
+
+.octet-input:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.octet-hint {
+    font-size: 10px;
+    color: var(--color-text-secondary);
+    margin-top: 20px;
+}
+
+/* Results */
+.octet-results-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.octet-final-stats {
+    display: flex;
+    gap: 30px;
+    margin: 20px 0;
+}
+
+.final-stat {
+    text-align: center;
+}
+
+.final-label {
+    font-size: 10px;
+    color: var(--color-text-secondary);
+    display: block;
+    margin-bottom: 8px;
+}
+
+.final-value {
+    font-size: 28px;
+    color: #00ff9d;
+}
+
+.grade-message {
+    font-size: 10px;
+    color: var(--color-text-secondary);
+    text-align: center;
+    max-width: 400px;
+}
+
+/* Footer */
+.octet-footer {
+    margin-top: auto;
+    padding-top: 20px;
+    text-align: center;
+}
+
+/* Mobile Responsive */
+@media (max-width: 600px) {
+    .octets-row {
+        flex-direction: column;
+    }
+
+    .octet-dot {
+        display: none;
+    }
+
+    .octet-container {
+        width: 100%;
+        max-width: 200px;
+    }
+
+    .ip-preview {
+        font-size: 18px;
+    }
+}
+
+/* ========================================
    IOS QUIZ MODULE
    ======================================== */
 

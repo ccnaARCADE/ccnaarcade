@@ -153,6 +153,7 @@ const Game = {
         this.addClickListener('btn-launch-packet', () => this.showPacketJourneySelect());
         this.addClickListener('btn-launch-osi', () => this.startOSITrainer());
         this.addClickListener('btn-launch-binary', () => this.startBinaryMunchers());
+        this.addClickListener('btn-launch-octet', () => this.startOctetBuilder());
         this.addClickListener('btn-launch-ios', () => this.startIOSQuiz());
         this.addClickListener('btn-lp-settings', () => this.showSettingsFromLaunch());
         this.addClickListener('btn-lp-stats', () => this.showStatisticsFromLaunch());
@@ -163,7 +164,7 @@ const Game = {
         this.addClickListener('card-subnet', () => this.showSubnetHub());
         this.addClickListener('card-packet', () => this.showPacketJourneySelect());
         this.addClickListener('card-osi', () => this.startOSITrainer());
-        this.addClickListener('card-binary', () => this.startBinaryMunchers());
+        this.addClickListener('card-octet', () => this.startOctetBuilder());
         this.addClickListener('card-ios-quiz', () => this.startIOSQuiz());
 
         // ========================================
@@ -2138,6 +2139,26 @@ const Game = {
         if (nextLevelBtn) nextLevelBtn.classList.add('hidden');
 
         UI.showOverlay('gameOver');
+    },
+
+    // ========================================
+    // OCTET BUILDER METHODS
+    // ========================================
+
+    /**
+     * Start Octet Builder (show the start screen)
+     */
+    startOctetBuilder() {
+        if (typeof Sounds !== 'undefined') {
+            Sounds.play('click');
+        }
+
+        if (typeof OctetBuilder !== 'undefined') {
+            OctetBuilder.init();
+            UI.showScreen('octetBuilderScreen');
+        } else {
+            console.error('OctetBuilder module not loaded');
+        }
     },
 
     // ========================================

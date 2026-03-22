@@ -175,32 +175,29 @@
                         <button class="card-btn" id="btn-launch-osi">LAUNCH</button>
                     </div>
 
-                    <!-- Binary Munchers Card -->
-                    <div class="module-card binary-card" id="card-binary">
+                    <!-- Octet Builder Card -->
+                    <div class="module-card octet-card" id="card-octet">
                         <div class="card-icon">
-                            <div class="icon-binary">
-                                <span class="binary-bit">1</span>
-                                <span class="binary-bit">0</span>
-                                <span class="binary-bit">1</span>
-                                <span class="binary-bit">0</span>
+                            <div class="icon-octet">
+                                <span class="octet-frog">10</span>
                             </div>
                         </div>
                         <div class="card-content">
-                            <h2 class="card-title">BINARY MUNCHERS</h2>
-                            <p class="card-desc">Arcade-style binary training</p>
+                            <h2 class="card-title">OCTET BUILDER</h2>
+                            <p class="card-desc">Convert binary to build IPs</p>
                             <div class="card-modes">
-                                <span class="mode-tag">Arcade</span>
-                                <span class="mode-tag">Convert</span>
-                                <span class="mode-tag">Subnet</span>
+                                <span class="mode-tag">Binary</span>
+                                <span class="mode-tag">Decimal</span>
+                                <span class="mode-tag">IPs</span>
                             </div>
                         </div>
                         <div class="card-progress">
                             <div class="progress-bar">
-                                <div class="progress-fill" id="binary-progress" style="width: 0%"></div>
+                                <div class="progress-fill" id="octet-progress" style="width: 0%"></div>
                             </div>
                             <span class="progress-label">High: 0</span>
                         </div>
-                        <button class="card-btn" id="btn-launch-binary">LAUNCH</button>
+                        <button class="card-btn" id="btn-launch-octet">LAUNCH</button>
                     </div>
 
                     <!-- IOS Commands Quiz Card -->
@@ -1006,6 +1003,140 @@
             </div>
         </div>
 
+        <!-- Octet Builder Screen -->
+        <div id="octet-builder-screen" class="screen">
+            <div class="octet-header">
+                <div class="octet-stat">
+                    <span class="stat-label">SCORE</span>
+                    <span id="octet-score" class="stat-value">0</span>
+                </div>
+                <div class="octet-stat">
+                    <span class="stat-label">ROUND</span>
+                    <span id="octet-round" class="stat-value">1/10</span>
+                </div>
+                <div class="octet-stat">
+                    <span class="stat-label">STREAK</span>
+                    <span id="octet-streak" class="stat-value">0x</span>
+                </div>
+                <div class="octet-stat timer">
+                    <span class="stat-label">TIME</span>
+                    <span id="octet-timer" class="stat-value">15</span>
+                </div>
+            </div>
+
+            <!-- Start Area -->
+            <div id="octet-start-area" class="octet-start-area">
+                <div class="octet-intro">
+                    <h2>OCTET BUILDER</h2>
+                    <p class="octet-tagline">Convert binary octets to build IP addresses</p>
+
+                    <!-- Binary Frog Mascot -->
+                    <div class="intro-frog">
+                        <pre class="frog-ascii">
+  1 0 1
+ 0     0
+1  ^ ^  1
+0  \_/  0
+ 1 0 1 0
+                        </pre>
+                        <p class="frog-speech">*ribbit* Let's build some IPs!</p>
+                    </div>
+
+                    <div class="octet-instructions">
+                        <div class="instruction">
+                            <span class="instruction-icon">1</span>
+                            <span>See 4 binary octets (8 bits each)</span>
+                        </div>
+                        <div class="instruction">
+                            <span class="instruction-icon">2</span>
+                            <span>Convert each to decimal (0-255)</span>
+                        </div>
+                        <div class="instruction">
+                            <span class="instruction-icon">3</span>
+                            <span>Build the complete IP address</span>
+                        </div>
+                    </div>
+
+                    <button class="menu-btn" id="btn-start-octet">START BUILDING</button>
+                </div>
+            </div>
+
+            <!-- Game Area -->
+            <div id="octet-game-area" class="octet-game-area hidden">
+                <!-- IP Preview -->
+                <div class="ip-preview-container">
+                    <span class="ip-label">Building IP:</span>
+                    <span id="ip-preview" class="ip-preview">___.___.___.___</span>
+                </div>
+
+                <!-- Binary Frog (animated) -->
+                <div class="frog-track">
+                    <div id="binary-frog" class="binary-frog">
+                        <div class="frog-body">10</div>
+                    </div>
+                </div>
+
+                <!-- 4 Octet Containers -->
+                <div class="octets-row">
+                    <div id="octet-container-0" class="octet-container">
+                        <div class="octet-label">Octet 1</div>
+                        <div id="octet-0" class="octet-binary">00000000</div>
+                        <input type="text" id="octet-input-0" class="octet-input" placeholder="?" maxlength="3" inputmode="numeric">
+                    </div>
+                    <span class="octet-dot">.</span>
+                    <div id="octet-container-1" class="octet-container">
+                        <div class="octet-label">Octet 2</div>
+                        <div id="octet-1" class="octet-binary">00000000</div>
+                        <input type="text" id="octet-input-1" class="octet-input" placeholder="?" maxlength="3" inputmode="numeric">
+                    </div>
+                    <span class="octet-dot">.</span>
+                    <div id="octet-container-2" class="octet-container">
+                        <div class="octet-label">Octet 3</div>
+                        <div id="octet-2" class="octet-binary">00000000</div>
+                        <input type="text" id="octet-input-2" class="octet-input" placeholder="?" maxlength="3" inputmode="numeric">
+                    </div>
+                    <span class="octet-dot">.</span>
+                    <div id="octet-container-3" class="octet-container">
+                        <div class="octet-label">Octet 4</div>
+                        <div id="octet-3" class="octet-binary">00000000</div>
+                        <input type="text" id="octet-input-3" class="octet-input" placeholder="?" maxlength="3" inputmode="numeric">
+                    </div>
+                </div>
+
+                <div class="octet-hint">
+                    <span>Tip: 128+64+32+16+8+4+2+1 = 255</span>
+                </div>
+            </div>
+
+            <!-- Results Area -->
+            <div id="octet-results-area" class="octet-results-area hidden">
+                <h2>Training Complete!</h2>
+                <div class="octet-final-stats">
+                    <div class="final-stat">
+                        <span class="final-label">Score</span>
+                        <span id="octet-final-score" class="final-value">0</span>
+                    </div>
+                    <div class="final-stat">
+                        <span class="final-label">Accuracy</span>
+                        <span id="octet-accuracy" class="final-value">0%</span>
+                    </div>
+                    <div class="final-stat">
+                        <span class="final-label">Best Streak</span>
+                        <span id="octet-best-streak" class="final-value">0x</span>
+                    </div>
+                </div>
+                <div id="octet-grade-message" class="grade-message"></div>
+                <div class="results-actions">
+                    <button class="menu-btn" id="btn-restart-octet">Try Again</button>
+                    <button class="menu-btn secondary" id="btn-octet-back">Back to Hub</button>
+                </div>
+            </div>
+
+            <div class="octet-footer">
+                <button id="btn-octet-quit" class="game-btn">QUIT</button>
+            </div>
+        </div>
+
         <!-- IOS Quiz Screen -->
         <div id="ios-quiz-screen" class="screen">
             <div class="ios-header">
@@ -1248,6 +1379,7 @@
     <script src="js/packetjourney.js" defer></script>
     <script src="js/ositrainer.js" defer></script>
     <script src="js/binarymunchers.js" defer></script>
+    <script src="js/octetbuilder.js" defer></script>
     <script src="js/iosquiz.js" defer></script>
     <script src="js/cliterminal.js" defer></script>
     <script src="js/leaderboard.js"></script>
