@@ -3,11 +3,12 @@
  * Enables offline play via caching
  */
 
-const CACHE_NAME = 'ccna-arcade-v7.0';
+const CACHE_NAME = 'ccna-arcade-v8.0';
 const ASSETS_TO_CACHE = [
     '/',
     '/index.html',
     '/css/style.css',
+    '/fonts/press-start-2p.woff2',
     '/js/subnet.js',
     '/js/sounds.js',
     '/js/settings.js',
@@ -15,7 +16,7 @@ const ASSETS_TO_CACHE = [
     '/js/grid.js',
     '/js/ui.js',
     '/js/building.js',
-    '/js/achievements.js',
+    '/js/iosquiz.js',
     '/js/speedsubnet.js',
     '/js/mascot.js',
     '/js/stats.js',

@@ -12,10 +12,68 @@
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icons/icon.svg">
     <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="preload" href="fonts/press-start-2p.woff2" as="font" type="font/woff2" crossorigin>
+    <style>
+        @font-face {
+            font-family: 'Press Start 2P';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url('fonts/press-start-2p.woff2') format('woff2');
+        }
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(10, 10, 26, 0.98);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.3s ease-out;
+        }
+        .loading-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .loading-spinner {
+            text-align: center;
+        }
+        .spinner-border {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(0, 212, 255, 0.3);
+            border-top-color: #00d4ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .spinner-text {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 10px;
+            color: #00d4ff;
+            letter-spacing: 2px;
+        }
+    </style>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <!-- ARIA Live Regions for screen reader announcements -->
+    <div id="sr-announcements" role="status" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+    <div id="sr-alerts" role="alert" aria-live="assertive" aria-atomic="true" class="sr-only"></div>
+
+    <!-- Loading Spinner - shows immediately during page load -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loading-spinner">
+            <div class="spinner-border"></div>
+            <div class="spinner-text">LOADING...</div>
+        </div>
+    </div>
     <a href="#launch-panel" class="skip-link">Skip to main content</a>
     <div id="game-container" role="main">
         <!-- Launch Panel - Main Entry Point -->
@@ -1109,19 +1167,28 @@
     <script src="js/requirements.js"></script>
     <script src="js/levels.js"></script>
     <script src="js/stats.js"></script>
-    <script src="js/dailychallenge.js"></script>
-    <script src="js/tutorial.js"></script>
-    <script src="js/practice.js"></script>
-    <script src="js/packetjourney.js"></script>
-    <script src="js/ositrainer.js"></script>
-    <script src="js/binarymunchers.js"></script>
-    <script src="js/iosquiz.js"></script>
+    <script src="js/dailychallenge.js" defer></script>
+    <script src="js/tutorial.js" defer></script>
+    <script src="js/practice.js" defer></script>
+    <script src="js/packetjourney.js" defer></script>
+    <script src="js/ositrainer.js" defer></script>
+    <script src="js/binarymunchers.js" defer></script>
+    <script src="js/iosquiz.js" defer></script>
     <script src="js/leaderboard.js"></script>
     <script src="js/themes.js"></script>
     <script src="js/savedata.js"></script>
     <script src="js/ui.js"></script>
     <script src="js/game.js"></script>
     <script>
+        // Hide loading spinner when app is ready
+        window.addEventListener('load', () => {
+            const loadingOverlay = document.getElementById('loading-overlay');
+            if (loadingOverlay) {
+                loadingOverlay.classList.add('hidden');
+                setTimeout(() => loadingOverlay.remove(), 300);
+            }
+        });
+
         // Register Service Worker for PWA
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {

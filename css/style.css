@@ -11,7 +11,7 @@
     --color-surface: #1a1a3a;
     --color-border: #333366;
     --color-text-primary: #ffffff;
-    --color-text-secondary: #888888;
+    --color-text-secondary: #aaaaaa;  /* ACCESSIBILITY FIX: Improved contrast from #888 to #aaa (5.4:1 ratio) */
 }
 
 /* Reset and base styles */
@@ -4705,5 +4705,77 @@ body.keyboard-nav .daily-option::before {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+/* ========================================
+   ACCESSIBILITY STYLES
+   ======================================== */
+
+/* Screen reader only - visually hidden but accessible */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Missing focus indicators for keyboard navigation */
+.card-btn:focus,
+.footer-btn:focus,
+.hub-btn:focus,
+.back-btn:focus,
+.pj-scenario-card:focus,
+.difficulty-btn:focus,
+.mode-btn:focus,
+.game-btn:focus,
+.leaderboard-tab:focus,
+.osi-option:focus,
+.pj-option:focus {
+    outline: 3px solid #ffd400;
+    outline-offset: 2px;
+}
+
+/* Enhanced focus visible for modern browsers */
+.card-btn:focus-visible,
+.footer-btn:focus-visible,
+.hub-btn:focus-visible,
+.back-btn:focus-visible,
+.game-btn:focus-visible {
+    outline: 3px solid #ffd400;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 1px var(--color-background), 0 0 0 4px #ffd400;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    :root {
+        --color-primary: #00ffff;
+        --color-background: #000000;
+        --color-text-primary: #ffffff;
+        --color-border: #ffffff;
+    }
+
+    .module-card,
+    .menu-btn,
+    .card-btn {
+        border-width: 3px;
+    }
+}
+
+@media (forced-colors: active) {
+    .module-card {
+        border: 2px solid CanvasText;
+    }
+
+    .card-btn,
+    .menu-btn,
+    .footer-btn {
+        border: 2px solid ButtonText;
     }
 }
